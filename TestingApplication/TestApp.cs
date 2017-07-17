@@ -1,4 +1,5 @@
 ﻿using MusicCollectionData;
+using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
@@ -48,7 +49,7 @@ namespace TestingApplication
                     WriteCollection(musicCollection);
                     break;
                 case "4":
-                    Search();
+                    Search(musicCollection);
                     break;
                 case "0":
                     exit = true;
@@ -60,9 +61,21 @@ namespace TestingApplication
             return exit;
         }
 
-        private static void Search()
+        private static void Search(MusicCollection musicCollection)
         {
-            String url = ROOT_URL + "?method=album.search&album=Believe&api_key=479c5b7243a02e8985b3728d483882c0&format=json";
+            String method = "?method=album.search";
+            String api_key = "&api_key=479c5b7243a02e8985b3728d483882c0";
+            String format = "&limit=10&format=json";
+            String url;
+            String searchString;
+            String albumString = "&album=";
+
+            Console.Out.Write("Enter an album search: ");
+            searchString = Console.In.ReadLine().Trim();
+            albumString += searchString;
+
+            //"?method=album.search&album=nevermind&api_key=479c5b7243a02e8985b3728d483882c0&format=json"
+            url = "" + ROOT_URL + method + albumString + api_key + format; 
 
             HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.Method = WebRequestMethods.Http.Get;
@@ -74,7 +87,26 @@ namespace TestingApplication
                 {
                     String text = sr.ReadToEnd();
 
-                    Console.Out.WriteLine(text);
+                    Rootobject rootObject = JToken.Parse(text).ToObject<Rootobject>();
+
+                    Album[] albums = rootObject.results.albummatches.album;
+
+                    Console.Out.WriteLine("\nSearch results (" + albums.Length + " items)");
+                    int num = 1;
+                    foreach (Album a in albums)
+                    {
+                        Console.Out.WriteLine("" + num + ".  Name: " + a.name + " Artist: " + a.artist);
+                        num++;
+                    }
+
+                    Console.Out.WriteLine("Add to collection (y/n)? ");
+                    String yesno = Console.In.ReadLine().Trim();
+                    if (yesno.Equals("y"))
+                    {
+                        Album album = albums[0];
+                        musicCollection.AddAlbum(new MusicCollectionAlbum(album.name, album.artist, 1989));
+                    }
+
                 }
             }
         }
