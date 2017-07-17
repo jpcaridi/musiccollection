@@ -62,7 +62,7 @@ namespace TestingApplication
 
         private static void Search()
         {
-            String url = ROOT_URL + "?method=album.search&album=Believe&api_key=479c5b7243a02e8985b3728d483882c0";
+            String url = ROOT_URL + "?method=album.search&album=Believe&api_key=479c5b7243a02e8985b3728d483882c0&format=json";
 
             HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.Method = WebRequestMethods.Http.Get;
@@ -121,14 +121,14 @@ namespace TestingApplication
         private static void PrintCollection(MusicCollection musicCollection)
         {
             Console.Out.WriteLine("\n\t--- Music Collection ---");
-            foreach (Album a in musicCollection.Albums)
+            foreach (MusicCollectionAlbum a in musicCollection.Albums)
             {
                 Console.Out.WriteLine("\t" + a.Name + " " + a.Artist + " " + a.Year);
             }
             Console.Out.WriteLine(" \t-----------------------\n");
         }
 
-        private static Album ParseAlbum (XElement element)
+        private static MusicCollectionAlbum ParseAlbum(XElement element)
         {
             XElement albumNameEl = element.Element("Name");
             String albumName = albumNameEl.Value;
@@ -139,7 +139,7 @@ namespace TestingApplication
             XElement yearEl = element.Element("Year");
             UInt32 year = UInt32.Parse(yearEl.Value);
 
-            return new Album(albumName, artist, year);
+            return new MusicCollectionAlbum(albumName, artist, year);
         }
 
         private static void WriteCollection (MusicCollection musicCollection)
@@ -149,7 +149,7 @@ namespace TestingApplication
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Albums");
 
-                foreach(Album a in musicCollection.Albums)
+                foreach (MusicCollectionAlbum a in musicCollection.Albums)
                 {
                     writer.WriteStartElement("Album");
 
