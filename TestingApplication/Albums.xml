@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Albums>
+  <Album>
+    <Name>London Calling</Name>
+    <Artist>The Clash</Artist>
+    <Year>1979</Year>
+  </Album>
+  <Album>
+    <Name>Nevermind</Name>
+    <Artist>Nirvana</Artist>
+    <Year>1991</Year>
+  </Album>
+</Albums>
