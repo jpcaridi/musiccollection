@@ -11,7 +11,8 @@ namespace TestingApplication
     public class TestApp
     {
         private static readonly String ALBUMS_FILE = "Albums.xml";
-        private static readonly String ROOT_URL = "http://ws.audioscrobbler.com/2.0/";
+        private static readonly String LAST_FM_ROOT_URL = "http://ws.audioscrobbler.com/2.0/";
+        private static readonly String MB_ROOT_URL = "http://musicbrainz.org/ws/2/";
         public static void Main(string[] args)
         {
             MusicCollection musicCollection = new MusicCollection();
@@ -23,8 +24,9 @@ namespace TestingApplication
                 Console.Out.WriteLine("   -- Menu -- ");
                 Console.Out.WriteLine("1 - Print Collection ");
                 Console.Out.WriteLine("2 - Add Album ");
-                Console.Out.WriteLine("3 - Save Collection ");
-                Console.Out.WriteLine("4 - Search");
+                Console.Out.WriteLine("3 - Delete Album ");
+                Console.Out.WriteLine("4 - Save Collection ");
+                Console.Out.WriteLine("5 - Search");
                 Console.Out.WriteLine("0 - Exit ");
                 Console.Out.Write("Please Enter a Selection: ");
                 choice = Console.In.ReadLine().Trim();
@@ -46,9 +48,12 @@ namespace TestingApplication
                     AddAlbum(musicCollection);
                     break;
                 case "3":
-                    WriteCollection(musicCollection);
+                    DeleteAlbum(musicCollection);
                     break;
                 case "4":
+                    WriteCollection(musicCollection);
+                    break;
+                case "5":
                     Search(musicCollection);
                     break;
                 case "0":
@@ -61,11 +66,38 @@ namespace TestingApplication
             return exit;
         }
 
+        private static void DeleteAlbum(MusicCollection musicCollection)
+        {
+
+           PrintCollection(musicCollection);
+
+           Console.Out.Write("Enter an album number to delete: ");
+           String entry = Console.In.ReadLine().Trim();
+           int albumNumber;
+
+           if (Int32.TryParse(entry, out albumNumber))
+           {
+              albumNumber -=1;
+              if (albumNumber >= 0 && albumNumber < musicCollection.Albums.Count)
+              {
+                 MusicCollectionAlbum album = musicCollection.Albums[albumNumber];
+                 if (musicCollection.RemoveAlbum(album))
+                 {
+                    Console.Out.WriteLine("Abum has been deleted.");
+                 }
+                 else
+                 {
+                    Console.Out.WriteLine("Unable to delete album.");
+                 }
+              }
+           }
+        }
+
         private static void Search(MusicCollection musicCollection)
         {
             String method = "?method=album.search";
             String api_key = "&api_key=479c5b7243a02e8985b3728d483882c0";
-            String format = "&limit=10&format=json";
+            String format = "&limit=20&format=json";
             String url;
             String searchString;
             String albumString = "&album=";
@@ -75,7 +107,7 @@ namespace TestingApplication
             albumString += searchString;
 
             //"?method=album.search&album=nevermind&api_key=479c5b7243a02e8985b3728d483882c0&format=json"
-            url = "" + ROOT_URL + method + albumString + api_key + format; 
+            url = "" + LAST_FM_ROOT_URL + method + albumString + api_key + format; 
 
             HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest.Method = WebRequestMethods.Http.Get;
@@ -95,20 +127,47 @@ namespace TestingApplication
                     int num = 1;
                     foreach (Album a in albums)
                     {
-                        Console.Out.WriteLine("" + num + ".  Name: " + a.name + " Artist: " + a.artist);
-                        num++;
+                       if (!a.mbid.Equals(""))
+                       {
+                          Console.Out.WriteLine("" + num + ".  Name: " + a.name + " Artist: " + a.artist + " MBID: " + a.mbid);
+                       }
+                       num++;
                     }
 
-                    Console.Out.WriteLine("Add to collection (y/n)? ");
+                    Console.Out.Write("Add to collection (y/n)? ");
                     String yesno = Console.In.ReadLine().Trim();
                     if (yesno.Equals("y"))
                     {
                         Album album = albums[0];
+                        PrintAdditionalAlbumInfo(album);
+
                         musicCollection.AddAlbum(new MusicCollectionAlbum(album.name, album.artist, 1989));
                     }
 
                 }
             }
+        }
+
+        private static void PrintAdditionalAlbumInfo(Album album)
+        {
+           String method = "release/";
+           String format = "?fmt=json";
+
+           HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(MB_ROOT_URL + method + album.mbid + format);
+           httpWebRequest.Method = WebRequestMethods.Http.Get;
+           httpWebRequest.Accept = "application/json";
+           httpWebRequest.UserAgent = "MusicCollection/1.0.0 (jpcaridi@gmail.com)";
+
+           using (HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
+           {
+              using (StreamReader sr = new StreamReader(httpWebResponse.GetResponseStream()))
+              {
+                 String text = sr.ReadToEnd();
+
+                 Rootobject rootObject = JToken.Parse(text).ToObject<Rootobject>();
+                 Album albumResult = rootObject.results.albummatches.album[0];
+              }
+           }
         }
 
         private static void AddAlbum (MusicCollection musicCollection)
@@ -153,9 +212,13 @@ namespace TestingApplication
         private static void PrintCollection(MusicCollection musicCollection)
         {
             Console.Out.WriteLine("\n\t--- Music Collection ---");
+            Console.Out.WriteLine("\t\t" + musicCollection.Albums.Count + " items");
+            Int32 num = 1;
+
             foreach (MusicCollectionAlbum a in musicCollection.Albums)
             {
-                Console.Out.WriteLine("\t" + a.Name + " " + a.Artist + " " + a.Year);
+                Console.Out.WriteLine("\t" + num + ". " + a.Name + " " + a.Artist + " " + a.Year);
+                num++;
             }
             Console.Out.WriteLine(" \t-----------------------\n");
         }
