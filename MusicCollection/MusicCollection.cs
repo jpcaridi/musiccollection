@@ -26,5 +26,15 @@ namespace MusicCollectionData
         {
             m_albums.Add(album);
         }
+
+        public bool RemoveAlbum(MusicCollectionAlbum album)
+        {
+           if (m_albums.Contains(album))
+           {
+              return m_albums.Remove(album);
+           }
+
+           return false;
+        }
     }
 }
