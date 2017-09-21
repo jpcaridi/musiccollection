@@ -168,9 +168,12 @@ namespace TestingApplication
                 {
                     String text = sr.ReadToEnd();
 
-                    TestingApplication.MBJson.RootObject rootObject = JToken.Parse(text).ToObject<TestingApplication.MBJson.RootObject>();
+                    TestingApplication.MBJson.RootObject rootObject = JToken.Parse(text).ToObject<MBJson.RootObject>();
 
-                    releaseYear = UInt32.Parse(rootObject.date.Substring(0,4));
+                    if (rootObject.date != null)
+                    {
+                       releaseYear = uint.Parse(rootObject.date.Substring(0, 4));
+                    }
                 }
             }
             return releaseYear;
