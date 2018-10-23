@@ -58,9 +58,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MusicCollecitonController\MusicCollecitonController.csproj">
+    <ProjectReference Include="..\MusicCollectionController\MusicCollectionController.csproj">
       <Project>{f1ce4329-8839-45c6-9be0-39d5d611ad1f}</Project>
-      <Name>MusicCollecitonController</Name>
+      <Name>MusicCollectionController</Name>
     </ProjectReference>
     <ProjectReference Include="..\MusicCollectionModel\MusicCollectionModel.csproj">
       <Project>{5e54cb94-2781-4d06-ac51-5ba6b98f8a4b}</Project>

@@ -4,7 +4,7 @@ using MusicCollectionModel;
 using MusicCollectionData;
 using MusicCollectionConsumerService;
 
-namespace MusicCollecitonController
+namespace MusicCollectionController
 {
     /// <summary>
     /// Control of actions to the music collection

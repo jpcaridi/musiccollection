@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using MusicCollectionModel;
-using MusicCollecitonController;
+using MusicCollectionController;
 
 namespace TestingApplication
 {

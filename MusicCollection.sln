@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionData", "Musi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionModel", "MusicCollectionModel\MusicCollectionModel.csproj", "{5E54CB94-2781-4D06-AC51-5BA6B98F8A4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollecitonController", "MusicCollecitonController\MusicCollecitonController.csproj", "{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionConsumerService", "MusicCollectionConsumerService\MusicCollectionConsumerService.csproj", "{B7C12FD7-94FE-49A4-9834-0354C512D242}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionController", "MusicCollectionController\MusicCollectionController.csproj", "{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +31,14 @@ Global
 		{5E54CB94-2781-4D06-AC51-5BA6B98F8A4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E54CB94-2781-4D06-AC51-5BA6B98F8A4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E54CB94-2781-4D06-AC51-5BA6B98F8A4B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B7C12FD7-94FE-49A4-9834-0354C512D242}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B7C12FD7-94FE-49A4-9834-0354C512D242}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7C12FD7-94FE-49A4-9834-0354C512D242}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7C12FD7-94FE-49A4-9834-0354C512D242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
