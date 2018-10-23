@@ -39,7 +39,7 @@ namespace MusicCollectionConsumerService
                 if (!a.mbid.Equals(""))
                 {
                     UInt32 year = RetrieveAlbumYear(a);
-                    albumSearhchList.Add(new Album(a.name, a.artist, year));
+                    albumSearhchList.Add(new Album(a.name, a.artist, year, a.url));
                 }
             }
 
@@ -55,10 +55,17 @@ namespace MusicCollectionConsumerService
             string requestUri = MB_ROOT_URL + method + album.mbid + format;
             string response = MakeGetRequest(requestUri);
 
-            MbRootObject rootObject = JsonConvert.DeserializeObject<MbRootObject>(response);
-            if (rootObject.date != null)
+            try
             {
-                releaseYear = uint.Parse(rootObject.date.Substring(0, 4));
+                MbRootObject rootObject = JsonConvert.DeserializeObject<MbRootObject>(response);
+                if (rootObject.date != null)
+                {
+                    releaseYear = uint.Parse(rootObject.date.Substring(0, 4));
+                }
+            }
+            catch (Exception)
+            {
+                // ignored
             }
 
 
@@ -73,12 +80,19 @@ namespace MusicCollectionConsumerService
             httpWebRequest.UserAgent = "MusicCollection/1.0.0 (jpcaridi@gmail.com)";
 
             string text = "";
-            using (HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse())
+            try
             {
-                using (StreamReader sr = new StreamReader(httpWebResponse.GetResponseStream()))
+                using (HttpWebResponse httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse())
                 {
-                    text = sr.ReadToEnd();
+                    using (StreamReader sr = new StreamReader(httpWebResponse.GetResponseStream()))
+                    {
+                        text = sr.ReadToEnd();
+                    }
                 }
+            }
+            catch (WebException ex)
+            {
+                text = ex.Message;
             }
 
             return text;

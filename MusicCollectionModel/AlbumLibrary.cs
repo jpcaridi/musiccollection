@@ -14,10 +14,13 @@ namespace MusicCollectionModel
         /// <summary>
         /// Construct a new album library
         /// </summary>
-        public AlbumLibrary()
+        public AlbumLibrary(string libraryName)
         {
+            LibraryName = libraryName;
             _mAlbums = new List<Album>();
         }
+
+        public string LibraryName { get; set; }
 
         private readonly List<Album> _mAlbums;
         /// <summary>
@@ -44,12 +47,7 @@ namespace MusicCollectionModel
         /// <returns></returns>
         public bool RemoveAlbum(Album album)
         {
-            if (_mAlbums.Contains(album))
-            {
-                return _mAlbums.Remove(album);
-            }
-
-            return false;
+            return _mAlbums.Contains(album) && _mAlbums.Remove(album);
         }
     }
 }

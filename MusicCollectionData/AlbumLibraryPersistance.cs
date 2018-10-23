@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using MusicCollectionModel;
@@ -10,7 +8,19 @@ namespace MusicCollectionData
 {
     public class AlbumLibraryPersistance
     {
-        private static readonly String ALBUMS_FILE = "Albums.xml";
+        private static readonly String ALBUMS_FILE_EXTENSION = ".musiclibraryxml";
+        private static readonly String ALBUMS_FILE_LOCATION = "\\MusicCollection\\DataStore";
+
+        private static string LibraryFileName(AlbumLibrary albumLibrary)
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            path += ALBUMS_FILE_LOCATION;
+
+            //Ensure the directory exists.
+            Directory.CreateDirectory(path);
+
+            return Path.Combine(path, albumLibrary.LibraryName + ALBUMS_FILE_EXTENSION);
+        }
 
         /// <summary>
         /// 
@@ -18,7 +28,9 @@ namespace MusicCollectionData
         /// <param name="albumLibrary"></param>
         public static void ReadCollection(AlbumLibrary albumLibrary)
         {
-            using (XmlReader reader = XmlReader.Create(ALBUMS_FILE, new XmlReaderSettings { IgnoreWhitespace = true }))
+            string fileName = LibraryFileName(albumLibrary);
+
+            using (XmlReader reader = XmlReader.Create(fileName, new XmlReaderSettings { IgnoreWhitespace = true }))
             {
                 reader.MoveToContent();
                 reader.ReadStartElement("Albums");
@@ -41,16 +53,25 @@ namespace MusicCollectionData
 
         private static Album ParseAlbum(XElement element)
         {
-            XElement albumNameEl = element.Element("Name");
-            String albumName = albumNameEl.Value;
+            string albumName = "";
+            string artist = "";
+            string yearStr = "";
+            string url = "";
+
+             XElement albumNameEl = element.Element("Name");
+            albumName = albumNameEl?.Value;
 
             XElement artistEl = element.Element("Artist");
-            String artist = artistEl.Value;
+            artist = artistEl?.Value;
 
             XElement yearEl = element.Element("Year");
-            UInt32 year = UInt32.Parse(yearEl.Value);
+            yearStr = yearEl?.Value;
+            uint year = uint.Parse(yearStr);
 
-            return new Album(albumName, artist, year);
+            XElement urlEl = element.Element("URL");
+            url = urlEl?.Value;
+
+            return new Album(albumName, artist, year, url);
         }
 
         /// <summary>
@@ -59,7 +80,7 @@ namespace MusicCollectionData
         /// <param name="albumLibrary"></param>
         public static void WriteCollection(AlbumLibrary albumLibrary)
         {
-            using (XmlWriter writer = XmlWriter.Create((ALBUMS_FILE), new XmlWriterSettings()))
+            using (XmlWriter writer = XmlWriter.Create(LibraryFileName(albumLibrary), new XmlWriterSettings()))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Albums");
@@ -71,6 +92,7 @@ namespace MusicCollectionData
                     writer.WriteElementString("Name", a.Name);
                     writer.WriteElementString("Artist", a.Artist);
                     writer.WriteElementString("Year", a.Year.ToString());
+                    writer.WriteElementString("URL", a.Url);
 
                     writer.WriteEndElement();
                 }

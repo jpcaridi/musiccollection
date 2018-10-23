@@ -46,9 +46,9 @@ namespace MusicCollectionController
         /// 
         /// </summary>
         /// <returns></returns>
-        public static AlbumLibrary ReadLibrary()
+        public static AlbumLibrary ReadLibrary(string libraryName)
         {
-            AlbumLibrary albumLibrary = new AlbumLibrary();
+            AlbumLibrary albumLibrary = new AlbumLibrary(libraryName);
 
             AlbumLibraryPersistance.ReadCollection(albumLibrary);
 

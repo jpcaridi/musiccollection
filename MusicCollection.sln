@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionConsumerServ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionController", "MusicCollectionController\MusicCollectionController.csproj", "{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionForms", "MusicCollectionForms\MusicCollectionForms.csproj", "{AA325380-2645-424E-AAAA-39B5B47BB4F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1CE4329-8839-45C6-9BE0-39D5D611AD1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA325380-2645-424E-AAAA-39B5B47BB4F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA325380-2645-424E-AAAA-39B5B47BB4F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA325380-2645-424E-AAAA-39B5B47BB4F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA325380-2645-424E-AAAA-39B5B47BB4F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

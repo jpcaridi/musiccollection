@@ -10,11 +10,13 @@ namespace TestingApplication
 {
     public class TestApp
     {
+
+        private static readonly String TEST_LIBRARY_NAME = "TEST_LIBRARY";
         public static void Main(string[] args)
         {
-            AlbumLibrary albumLibrary = Controller.ReadLibrary();
+            AlbumLibrary albumLibrary = Controller.ReadLibrary(TEST_LIBRARY_NAME);
 
-            String choice = "0";
+            string choice = "0";
             do
             {
                 Console.Out.WriteLine("   -- Menu -- ");
@@ -25,13 +27,13 @@ namespace TestingApplication
                 Console.Out.WriteLine("5 - Search");
                 Console.Out.WriteLine("0 - Exit ");
                 Console.Out.Write("Please Enter a Selection: ");
-                choice = Console.In.ReadLine().Trim();
+                choice = Console.In.ReadLine()?.Trim();
 
 
             } while (!ProcessChoice(choice, albumLibrary));
         }
 
-        private static bool ProcessChoice(String choice, AlbumLibrary albumLibrary)
+        private static bool ProcessChoice(string choice, AlbumLibrary albumLibrary)
         {
             bool exit = false;
 
@@ -68,7 +70,7 @@ namespace TestingApplication
             PrintCollection(albumLibrary);
 
             Console.Out.Write("Enter an album number to delete: ");
-            String entry = Console.In.ReadLine().Trim();
+            string entry = Console.In.ReadLine()?.Trim();
             int albumNumber;
 
             if (Int32.TryParse(entry, out albumNumber))
@@ -92,10 +94,8 @@ namespace TestingApplication
 
         private static void Search(AlbumLibrary albumLibrary)
         {
-            String searchString;
-
             Console.Out.Write("Enter an album search: ");
-            searchString = Console.In.ReadLine().Trim();
+            var searchString = Console.In.ReadLine()?.Trim();
 
             IList<Album> albums = Controller.Search(searchString);
 
@@ -108,15 +108,17 @@ namespace TestingApplication
             }
 
             Console.Out.Write("Add to collection (Enter Number - 0 to not add)? ");
-            String selection = Console.In.ReadLine().Trim();
-            Int32 choice = Int32.Parse(selection) - 1;
-
-            if (choice >= 0 && choice < albums.Count)
+            String selection = Console.In.ReadLine()?.Trim();
+            if (selection != null)
             {
-                Album album = albums[choice];
-                Controller.AddAlbum(albumLibrary, album);
-            }
+                int choice = int.Parse(selection) - 1;
 
+                if (choice >= 0 && choice < albums.Count)
+                {
+                    Album album = albums[choice];
+                    Controller.AddAlbum(albumLibrary, album);
+                }
+            }
         }
 
         private static void AddAlbum(AlbumLibrary albumLibrary)
@@ -130,9 +132,12 @@ namespace TestingApplication
 
             Console.Out.Write("Album Year: ");
             String yearString = Console.In.ReadLine();
-            UInt32 year = UInt32.Parse(yearString);
+            if (yearString != null)
+            {
+                uint year = uint.Parse(yearString);
 
-            Controller.AddAlbum(albumLibrary, new Album(name, artist, year));
+                Controller.AddAlbum(albumLibrary, new Album(name, artist, year, ""));
+            }
         }
 
         private static void PrintCollection(AlbumLibrary albumLibrary)
