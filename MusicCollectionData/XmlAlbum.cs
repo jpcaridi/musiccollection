@@ -17,12 +17,12 @@ namespace MusicCollectionData
         /// <param name="name">Name of the album</param>
         /// <param name="artist">Artist of the album</param>
         /// <param name="year">Year the album was recorded or attributed</param>
-        private XmlAlbum(string name, string artist, uint year, string url)
+        private XmlAlbum(string name, string artist, uint year, int playCount, string url)
         {
             Name = name;
             Artist = artist;
             Year = year;
-            PlayCount = 0;
+            PlayCount = playCount;
             Url = url;
         }
 
@@ -31,22 +31,39 @@ namespace MusicCollectionData
             string albumName = "";
             string artist = "";
             string yearStr = "";
+            string playCountStr = "";
             string url = "";
+            
+            albumName = ReadElement(albumElement, "Name");
+            artist = ReadElement(albumElement, "Artist");
+            
+            yearStr = ReadElement(albumElement, "Year");
+            uint year = 1900;
+            uint.TryParse(yearStr, out year);
+            
+            playCountStr = ReadElement(albumElement, "PlayCount");
+            int playCount = 0;
+            int.TryParse(playCountStr, out playCount);
+            
+            url = ReadElement(albumElement, "URL");
 
-            XElement albumNameEl = albumElement.Element("Name");
-            albumName = albumNameEl?.Value;
+            return new XmlAlbum(albumName, artist, year, playCount, url);
+        }
 
-            XElement artistEl = albumElement.Element("Artist");
-            artist = artistEl?.Value;
+        private static string ReadElement(XElement albumElement, XName name)
+        {
+            string value;
+            try
+            {
+                XElement el = albumElement.Element(name);
+                value = el?.Value;
+            }
+            catch 
+            {
+                value = " ";
+            }
 
-            XElement yearEl = albumElement.Element("Year");
-            yearStr = yearEl?.Value;
-            uint year = uint.Parse(yearStr);
-
-            XElement urlEl = albumElement.Element("URL");
-            url = urlEl?.Value;
-
-            return new XmlAlbum(albumName, artist, year, url);
+            return value;
         }
 
         /// <summary>
