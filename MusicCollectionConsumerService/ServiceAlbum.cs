@@ -1,29 +1,30 @@
 ﻿using System;
+using MusicCollectionModel.Interfaces;
 
-namespace MusicCollectionModel
+namespace MusicCollectionConsumerService
 {
-    /// <summary>
-    /// Represents a single album.
-    /// </summary>
-    public class Album
+    internal class ServiceAlbum : IAlbum
     {
-        /// <summary>
-        /// Constructor for a new Album
-        /// </summary>
-        /// <param name="name">Name of the album</param>
-        /// <param name="artist">Artist of the album</param>
-        /// <param name="year">Year the album was recorded or attributed</param>
-        public Album(string name, string artist, uint year, string url)
+        private ServiceAlbum()
         {
-            Name = name;
-            Artist = artist;
-            Year = year;
-            PlayCount = 0;
-            Url = url;
         }
+
         /// <summary>
-        /// Name of the album
+        /// Create a new service album instance
         /// </summary>
+        /// <returns>a new service album</returns>
+        public static ServiceAlbum CreateInstance(LastFMAlbum lastFmAlbum, uint year)
+        {
+            return new ServiceAlbum
+            {
+                Name = lastFmAlbum.name,
+                Artist = lastFmAlbum.artist,
+                Year = year,
+                PlayCount = 0,
+                Url = lastFmAlbum.url
+            };
+        }
+
         public string Name
         {
             get;
@@ -60,4 +61,3 @@ namespace MusicCollectionModel
         public string Url { get; set; }
     }
 }
-

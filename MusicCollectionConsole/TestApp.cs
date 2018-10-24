@@ -1,20 +1,21 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using MusicCollectionModel;
 using MusicCollectionController;
+using MusicCollectionModel.Interfaces;
 
-namespace TestingApplication
+namespace MusicCollectionConsole
 {
     public class TestApp
     {
 
         private static readonly String TEST_LIBRARY_NAME = "TEST_LIBRARY";
+        private static IMusicCollection _mMusicCollection;
+        private static IAlbumLibrary _mAlbumLibrary;
+
         public static void Main(string[] args)
         {
-            AlbumLibrary albumLibrary = Controller.ReadLibrary(TEST_LIBRARY_NAME);
+            _mMusicCollection = Driver.CreateXmlMusicCollection();
+            _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, TEST_LIBRARY_NAME);
 
             string choice = "0";
             do
@@ -30,29 +31,29 @@ namespace TestingApplication
                 choice = Console.In.ReadLine()?.Trim();
 
 
-            } while (!ProcessChoice(choice, albumLibrary));
+            } while (!ProcessChoice(choice));
         }
 
-        private static bool ProcessChoice(string choice, AlbumLibrary albumLibrary)
+        private static bool ProcessChoice(string choice)
         {
             bool exit = false;
 
             switch (choice)
             {
                 case "1":
-                    PrintCollection(albumLibrary);
+                    PrintCollection();
                     break;
                 case "2":
-                    AddAlbum(albumLibrary);
+                    AddAlbum();
                     break;
                 case "3":
-                    DeleteAlbum(albumLibrary);
+                    DeleteAlbum();
                     break;
                 case "4":
-                    WriteCollection(albumLibrary);
+                    WriteCollection();
                     break;
                 case "5":
-                    Search(albumLibrary);
+                    Search();
                     break;
                 case "0":
                     exit = true;
@@ -64,10 +65,10 @@ namespace TestingApplication
             return exit;
         }
 
-        private static void DeleteAlbum(AlbumLibrary albumLibrary)
+        private static void DeleteAlbum()
         {
 
-            PrintCollection(albumLibrary);
+            PrintCollection();
 
             Console.Out.Write("Enter an album number to delete: ");
             string entry = Console.In.ReadLine()?.Trim();
@@ -76,11 +77,11 @@ namespace TestingApplication
             if (Int32.TryParse(entry, out albumNumber))
             {
                 albumNumber -= 1;
-                if (albumNumber >= 0 && albumNumber < albumLibrary.Albums.Count)
+                if (albumNumber >= 0 && albumNumber < _mAlbumLibrary.Albums.Count)
                 {
-                    Album album = albumLibrary.Albums[albumNumber];
+                    IAlbum album = _mAlbumLibrary.Albums[albumNumber];
 
-                    if (Controller.DeleteAlbum(albumLibrary, album))
+                    if (Controller.DeleteAlbum(_mAlbumLibrary, album))
                     {
                         Console.Out.WriteLine("Abum has been deleted.");
                     }
@@ -92,16 +93,16 @@ namespace TestingApplication
             }
         }
 
-        private static void Search(AlbumLibrary albumLibrary)
+        private static void Search()
         {
             Console.Out.Write("Enter an album search: ");
             var searchString = Console.In.ReadLine()?.Trim();
 
-            IList<Album> albums = Controller.Search(searchString);
+            IList<IAlbum> albums = Controller.Search(searchString);
 
             Console.Out.WriteLine("\nSearch results (" + albums.Count + " items)");
             int num = 1;
-            foreach (Album a in albums)
+            foreach (IAlbum a in albums)
             {
                 Console.Out.WriteLine("" + num + ".  Name: " + a.Name + " Artist: " + a.Artist + " Year:" + a.Year);
                 num++;
@@ -115,13 +116,13 @@ namespace TestingApplication
 
                 if (choice >= 0 && choice < albums.Count)
                 {
-                    Album album = albums[choice];
-                    Controller.AddAlbum(albumLibrary, album);
+                    IAlbum album = albums[choice];
+                    Controller.AddAlbum(_mAlbumLibrary, album);
                 }
             }
         }
 
-        private static void AddAlbum(AlbumLibrary albumLibrary)
+        private static void AddAlbum()
         {
 
             Console.Out.Write("Album Name: ");
@@ -136,17 +137,17 @@ namespace TestingApplication
             {
                 uint year = uint.Parse(yearString);
 
-                Controller.AddAlbum(albumLibrary, new Album(name, artist, year, ""));
+                Controller.AddAlbum(_mAlbumLibrary, name, artist, year, "");
             }
         }
 
-        private static void PrintCollection(AlbumLibrary albumLibrary)
+        private static void PrintCollection()
         {
             Console.Out.WriteLine("\n\t--- Music Collection ---");
-            Console.Out.WriteLine("\t\t" + albumLibrary.Albums.Count + " items");
+            Console.Out.WriteLine("\t\t" + _mAlbumLibrary.Albums.Count + " items");
             Int32 num = 1;
 
-            foreach (Album a in albumLibrary.Albums)
+            foreach (IAlbum a in _mAlbumLibrary.Albums)
             {
                 Console.Out.WriteLine("\t" + num + ". " + a.Name + " " + a.Artist + " " + a.Year);
                 num++;
@@ -154,9 +155,9 @@ namespace TestingApplication
             Console.Out.WriteLine(" \t-----------------------\n");
         }
 
-        private static void WriteCollection(AlbumLibrary albumLibrary)
+        private static void WriteCollection()
         {
-            Controller.WriteLibrary(albumLibrary);
+            Controller.WriteLibrary(_mMusicCollection.Persistance, _mAlbumLibrary);
         }
     }
 }

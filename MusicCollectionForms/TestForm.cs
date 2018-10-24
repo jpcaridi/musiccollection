@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MusicCollectionController;
-using MusicCollectionModel;
+using MusicCollectionModel.Interfaces;
 
 namespace MusicCollectionForms
 {
@@ -23,10 +16,11 @@ namespace MusicCollectionForms
 
         protected void InitializeData()
         {
-            AlbumLibrary albumLibrary = Controller.ReadLibrary(TEST_LIBRARY_NAME);
+            IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
+            IAlbumLibrary albumLibrary = Controller.ReadLibrary(musicCollection.Persistance, TEST_LIBRARY_NAME);
             musicLibraryLabel.Text = albumLibrary.LibraryName;
 
-            foreach (Album a in albumLibrary.Albums)
+            foreach (IAlbum a in albumLibrary.Albums)
             {
                 musicCollectionGridView.Rows.Add(new object[] {a.Name, a.Artist, a.Year.ToString(), a.PlayCount.ToString(), a.Url});
             }
