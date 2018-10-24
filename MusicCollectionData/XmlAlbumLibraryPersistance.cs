@@ -41,7 +41,11 @@ namespace MusicCollectionData
         /// <param name="albumLibrary"></param>
         public static void WriteCollection(IAlbumLibrary albumLibrary)
         {
-            using (XmlWriter writer = XmlWriter.Create(LibraryFileName(albumLibrary.LibraryName), new XmlWriterSettings()))
+            XmlWriterSettings settings = new XmlWriterSettings();
+            settings.Indent = true;
+            settings.NewLineOnAttributes = true;
+
+            using (XmlWriter writer = XmlWriter.Create(LibraryFileName(albumLibrary.LibraryName), settings))
             {
                 writer.WriteStartDocument();
                 writer.WriteStartElement("Albums");
@@ -53,6 +57,7 @@ namespace MusicCollectionData
                     writer.WriteElementString("Name", a.Name);
                     writer.WriteElementString("Artist", a.Artist);
                     writer.WriteElementString("Year", a.Year.ToString());
+                    writer.WriteElementString("PlayCount", a.PlayCount.ToString());
                     writer.WriteElementString("URL", a.Url);
 
                     writer.WriteEndElement();
