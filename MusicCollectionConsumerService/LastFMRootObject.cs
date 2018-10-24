@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MusicCollectionConsumerService
 {
-    public class LastFMRootObject
+    public class LastFmRootObject
     {
         public LastFMResults results { get; set; }
     }

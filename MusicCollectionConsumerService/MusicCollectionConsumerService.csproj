@@ -7,8 +7,8 @@
     <ProjectGuid>{B7C12FD7-94FE-49A4-9834-0354C512D242}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MusicCollectionJson</RootNamespace>
-    <AssemblyName>MusicCollectionJson</AssemblyName>
+    <RootNamespace>MusicCollectionConsumerService</RootNamespace>
+    <AssemblyName>MusicCollectionConsumerService</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -43,10 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsumerService.cs" />
-    <Compile Include="LastFMRootObject.cs" />
+    <Compile Include="LastFmService.cs" />
+    <Compile Include="LastFmRootObject.cs" />
     <Compile Include="MbRootObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceAlbum.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MusicCollectionModel\MusicCollectionModel.csproj">

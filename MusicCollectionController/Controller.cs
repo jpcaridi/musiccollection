@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MusicCollectionModel;
-using MusicCollectionData;
 using MusicCollectionConsumerService;
+using MusicCollectionModel.Interfaces;
 
 namespace MusicCollectionController
 {
@@ -18,7 +17,7 @@ namespace MusicCollectionController
         /// <param name="albumLibrary">The album library</param>
         /// <param name="album">The album to remove from the library</param>
         /// <returns>true on success. false otherwise</returns>
-        public static bool DeleteAlbum(AlbumLibrary albumLibrary, Album album)
+        public static bool DeleteAlbum(IAlbumLibrary albumLibrary, IAlbum album)
         {
             return albumLibrary.RemoveAlbum(album);
         }
@@ -26,10 +25,10 @@ namespace MusicCollectionController
         /// <summary>
         /// 
         /// </summary>
-        public static IList<Album> Search(string searchString)
+        public static IList<IAlbum> Search(string searchString)
         {
             if (searchString == null) throw new ArgumentNullException(nameof(searchString));
-            return ConsumerService.Search(searchString);
+            return LastFmService.Search(searchString);
         }
 
         /// <summary>
@@ -37,33 +36,34 @@ namespace MusicCollectionController
         /// </summary>
         /// <param name="albumLibrary"></param>
         /// <param name="album"></param>
-        public static void AddAlbum(AlbumLibrary albumLibrary, Album album)
+        public static void AddAlbum(IAlbumLibrary albumLibrary, IAlbum album)
         {
             albumLibrary.AddAlbum(album);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public static AlbumLibrary ReadLibrary(string libraryName)
+        public static void AddAlbum(IAlbumLibrary albumLibrary, string name, string artist, uint year, string url)
         {
-            AlbumLibrary albumLibrary = new AlbumLibrary(libraryName);
-
-            AlbumLibraryPersistance.ReadCollection(albumLibrary);
-
-            return albumLibrary;
+            //TODO: Implement the IAlbum interface to allow the addition of albums.
         }
 
         /// <summary>
         /// 
         /// </summary>
+        /// <returns></returns>
+        public static IAlbumLibrary ReadLibrary(IAlbumPersistance albumPersistance, string libraryName)
+        {
+            return albumPersistance.RetrieveCollection(libraryName);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="albumPersistance"></param>
         /// <param name="albumLibrary"></param>
         /// <returns></returns>
-        public static bool WriteLibrary(AlbumLibrary albumLibrary)
+        public static bool WriteLibrary(IAlbumPersistance albumPersistance, IAlbumLibrary albumLibrary)
         {
-            AlbumLibraryPersistance.WriteCollection(albumLibrary);
-            return true;
+            return albumPersistance.WriteCollection(albumLibrary);
         }
 
     }
