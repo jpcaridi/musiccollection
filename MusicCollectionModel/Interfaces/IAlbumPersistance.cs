@@ -9,6 +9,13 @@ namespace MusicCollectionModel.Interfaces
     public interface IAlbumPersistance
     {
         /// <summary>
+        /// Create a new library
+        /// </summary>
+        /// <param name="libraryName">The name to call the library</param>
+        /// <returns></returns>
+        IAlbumLibrary CreateEmptyLibrary(string libraryName);
+
+        /// <summary>
         /// Retrieve Library Collection
         /// </summary>
         /// <param name="libraryName">The name of the library to retrieve</param>

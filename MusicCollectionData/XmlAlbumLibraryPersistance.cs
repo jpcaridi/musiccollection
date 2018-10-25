@@ -69,6 +69,11 @@ namespace MusicCollectionData
 
         }
 
+        public IAlbumLibrary CreateEmptyLibrary(string libraryName)
+        {
+            return XmlAlbumLibrary.CreateInstance(libraryName);
+        }
+
         public IAlbumLibrary RetrieveCollection(string libraryName)
         {
             return ReadCollection(libraryName);

@@ -12,6 +12,17 @@ namespace MusicCollectionController
     {
 
         /// <summary>
+        /// Create a library
+        /// </summary>
+        /// <param name="albumPersistance"></param>
+        /// <param name="libraryName"></param>
+        /// <returns></returns>
+        public static IAlbumLibrary CreateLibrary(IAlbumPersistance albumPersistance, string libraryName)
+        {
+            return albumPersistance.CreateEmptyLibrary(libraryName);
+        }
+
+        /// <summary>
         /// Remove an album from the library if it exists
         /// </summary>
         /// <param name="albumLibrary">The album library</param>
@@ -19,6 +30,7 @@ namespace MusicCollectionController
         /// <returns>true on success. false otherwise</returns>
         public static bool DeleteAlbum(IAlbumLibrary albumLibrary, IAlbum album)
         {
+            if (album == null) throw new ArgumentNullException(nameof(album));
             return albumLibrary.RemoveAlbum(album);
         }
 
@@ -38,6 +50,8 @@ namespace MusicCollectionController
         /// <param name="album"></param>
         public static void AddAlbum(IAlbumLibrary albumLibrary, IAlbum album)
         {
+            if (album == null) throw new ArgumentNullException(nameof(album));
+
             albumLibrary.AddAlbum(album);
         }
 

@@ -19,6 +19,16 @@ namespace MusicCollectionData
         }
 
         /// <summary>
+        /// Create an empty instance of the library
+        /// </summary>
+        /// <param name="libraryName">The name to be given to the library</param>
+        /// <returns></returns>
+        public static XmlAlbumLibrary CreateInstance(string libraryName)
+        {
+            return new XmlAlbumLibrary(libraryName);
+        }
+
+        /// <summary>
         /// Create an instance of an XmlAlbumLibrary
         /// </summary>
         /// <param name="libraryName">The name to be given to the library</param>
@@ -67,6 +77,9 @@ namespace MusicCollectionData
         /// <param name="album">The album to add</param>
         public void AddAlbum(IAlbum album)
         {
+            if (album == null)
+                throw new ArgumentNullException(nameof(album));
+
             if (!_mAlbums.Contains(album))
             {
                 _mAlbums.Add(album);
@@ -80,6 +93,7 @@ namespace MusicCollectionData
         /// <returns></returns>
         public bool RemoveAlbum(IAlbum album)
         {
+            if (album == null) throw new ArgumentNullException(nameof(album));
             return _mAlbums.Contains(album) && _mAlbums.Remove(album);
         }
     }
