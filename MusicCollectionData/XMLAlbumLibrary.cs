@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using MusicCollectionModel.Interfaces;
@@ -38,23 +39,31 @@ namespace MusicCollectionData
         {
             XmlAlbumLibrary xmlAlbumLibrary = new XmlAlbumLibrary(libraryName);
 
-            using (XmlReader reader = XmlReader.Create(fileName, new XmlReaderSettings { IgnoreWhitespace = true }))
+            try
             {
-                reader.MoveToContent();
-                reader.ReadStartElement("Albums");
-
-                while (!reader.EOF && reader.ReadState == ReadState.Interactive)
+                using (XmlReader reader = XmlReader.Create(fileName, new XmlReaderSettings { IgnoreWhitespace = true }))
                 {
-                    if (reader.Name == "Album")
+                    reader.MoveToContent();
+                    reader.ReadStartElement("Albums");
+
+                    while (!reader.EOF && reader.ReadState == ReadState.Interactive)
                     {
-                        XElement element = XNode.ReadFrom(reader) as XElement;
-                        xmlAlbumLibrary.AddAlbum(XmlAlbum.CreateInstance(element));
-                    }
-                    else
-                    {
-                        reader.Read();
+                        if (reader.Name == "Album")
+                        {
+                            XElement element = XNode.ReadFrom(reader) as XElement;
+                            xmlAlbumLibrary.AddAlbum(XmlAlbum.CreateInstance(element));
+                        }
+                        else
+                        {
+                            reader.Read();
+                        }
                     }
                 }
+            }
+            catch (FileNotFoundException)
+            {
+                //TODO This should really throw a new persistance exception
+                xmlAlbumLibrary = null;
             }
 
             return xmlAlbumLibrary;

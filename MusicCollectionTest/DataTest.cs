@@ -49,8 +49,22 @@ namespace MusicCollectionTest
                 Controller.AddAlbum(library, a);
             }
 
-            //TODO Test each album was added to the list
-            //TODO Test the persistance and load
+            Assert.IsTrue(albums.Length == library.Albums.Count, "Not all albums added to library.");
+
+            int location = 0;
+            foreach (IAlbum a in library.Albums)
+            {
+                Assert.IsTrue(a.Name == albums[location].Name, "Name does not match.");
+                Assert.IsTrue(a.Artist == albums[location].Artist, "Artist does not match.");
+                Assert.IsTrue(a.PlayCount == albums[location].PlayCount, "Playcount does not match.");
+                Assert.IsTrue(a.Url == albums[location].Url, "Url does not match.");
+                Assert.IsTrue(a.Year == albums[location].Year, "Year does not match.");
+
+                location++;
+            }
+
+
+            Assert.IsTrue(Controller.WriteLibrary(musicCollection.Persistance, library), "Count not save the library.");
         }
 
         /// <summary>
@@ -63,6 +77,7 @@ namespace MusicCollectionTest
 
             IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
             IAlbumLibrary library = Controller.ReadLibrary(musicCollection.Persistance, TEST_LIBRARY_NAME);
+            Assert.IsNotNull(library, "The library " + TEST_LIBRARY_NAME + " should not be null.");
 
             Assert.IsNotNull(library, "Loading " + TEST_LIBRARY_NAME + " should not be null.");
             Assert.IsTrue(library.Albums.Count == 3, "There should be exactly 3 albums in the library.");
