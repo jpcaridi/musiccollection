@@ -36,6 +36,7 @@
             this.playCount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.albumLink = new System.Windows.Forms.DataGridViewLinkColumn();
             this.saveButton = new System.Windows.Forms.Button();
+            this.searchButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.musicCollectionGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -114,15 +115,26 @@
             this.saveButton.UseVisualStyleBackColor = true;
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
-            // TestForm
+            // searchButton
+            // 
+            this.searchButton.Location = new System.Drawing.Point(93, 488);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(75, 23);
+            this.searchButton.TabIndex = 3;
+            this.searchButton.Text = "Search";
+            this.searchButton.UseVisualStyleBackColor = true;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
+            // 
+            // MusicCollectionAdmin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(707, 534);
+            this.Controls.Add(this.searchButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.musicCollectionGridView);
             this.Controls.Add(this.musicLibraryLabel);
-            this.Name = "TestForm";
+            this.Name = "MusicCollectionAdmin";
             this.Text = "Music Collection Admin";
             ((System.ComponentModel.ISupportInitialize)(this.musicCollectionGridView)).EndInit();
             this.ResumeLayout(false);
@@ -140,6 +152,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn playCount;
         private System.Windows.Forms.DataGridViewLinkColumn albumLink;
         private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button searchButton;
     }
 }
 

@@ -35,11 +35,11 @@ namespace MusicCollectionConsumerService
             string response = MakeGetRequest(requestUri);
 
             LastFmRootObject rootObject = JsonConvert.DeserializeObject<LastFmRootObject>(response);
-            LastFMAlbum[] albums = rootObject.results.albummatches.album;
+            LastFmAlbum[] albums = rootObject.Results.Albummatches.Album;
 
-            foreach (LastFMAlbum a in albums)
+            foreach (LastFmAlbum a in albums)
             {
-                if (!a.mbid.Equals(""))
+                if (!a.Mbid.Equals(""))
                 {
                     UInt32 year = RetrieveAlbumYear(a);
                     
@@ -51,21 +51,21 @@ namespace MusicCollectionConsumerService
             return albumSearhchList;
         }
 
-        private static UInt32 RetrieveAlbumYear(LastFMAlbum album)
+        private static UInt32 RetrieveAlbumYear(LastFmAlbum album)
         {
             UInt32 releaseYear = 1900;
             String method = "release/";
             String format = "?fmt=json";
 
-            string requestUri = MB_ROOT_URL + method + album.mbid + format;
+            string requestUri = MB_ROOT_URL + method + album.Mbid + format;
             string response = MakeGetRequest(requestUri);
 
             try
             {
                 MbRootObject rootObject = JsonConvert.DeserializeObject<MbRootObject>(response);
-                if (rootObject.date != null)
+                if (rootObject.Date != null)
                 {
-                    releaseYear = uint.Parse(rootObject.date.Substring(0, 4));
+                    releaseYear = uint.Parse(rootObject.Date.Substring(0, 4));
                 }
             }
             catch (Exception)
@@ -84,7 +84,7 @@ namespace MusicCollectionConsumerService
             httpWebRequest.Accept = "application/json";
             httpWebRequest.UserAgent = "MusicCollection/1.0.0 (jpcaridi@gmail.com)";
 
-            string text = "";
+            string text;
             try
             {
                 using (HttpWebResponse httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse())

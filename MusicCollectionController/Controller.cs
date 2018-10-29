@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MusicCollectionConsumerService;
 using MusicCollectionModel.Interfaces;
 
 namespace MusicCollectionController
@@ -37,10 +36,12 @@ namespace MusicCollectionController
         /// <summary>
         /// 
         /// </summary>
-        public static IList<IAlbum> Search(string searchString)
+        public static IList<IAlbum> Search(IConsumerService consumerService, string searchString)
         {
             if (searchString == null) throw new ArgumentNullException(nameof(searchString));
-            return LastFmService.Search(searchString);
+            if (consumerService == null) throw new ArgumentNullException(nameof(consumerService));
+
+            return consumerService.Search(searchString);
         }
 
         /// <summary>

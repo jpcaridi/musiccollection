@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using MusicCollectionController;
 using MusicCollectionForms.Properties;
@@ -9,9 +10,9 @@ namespace MusicCollectionForms
     public partial class MusicCollectionAdmin : Form
     {
         private static readonly String TEST_LIBRARY_NAME = "TEST_LIBRARY";
-        private BindingSource bindingSource1 = new BindingSource();
-        private IMusicCollection _mMusicCollection;
-        private IAlbumLibrary _mAlbumLibrary;
+        private readonly BindingSource _bindingSource1 = new BindingSource();
+        private readonly IMusicCollection _mMusicCollection;
+        private readonly IAlbumLibrary _mAlbumLibrary;
 
         public MusicCollectionAdmin()
         {
@@ -20,28 +21,17 @@ namespace MusicCollectionForms
             _mMusicCollection = Driver.CreateXmlMusicCollection();
             _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, TEST_LIBRARY_NAME);
 
-            this.Load += new System.EventHandler(MusicCollectionGridView_Load);
+            Load += MusicCollectionGridView_Load;
         }
 
-        protected void InitializeData()
-        {
-            
-            /*musicLibraryLabel.Text = albumLibrary.LibraryName;
-
-            foreach (IAlbum a in albumLibrary.Albums)
-            {
-                musicCollectionGridView.Rows.Add(new object[] {a.Name, a.Artist, a.Year.ToString(), a.PlayCount.ToString(), a.Url});
-            }*/
-
-        }
         private void MusicCollectionGridView_Load(object sender, EventArgs e)
         {
             foreach (IAlbum a in _mAlbumLibrary.Albums)
             {
-                bindingSource1.Add(a);
+                _bindingSource1.Add(a);
             }
 
-            musicCollectionGridView.DataSource = bindingSource1;
+            musicCollectionGridView.DataSource = _bindingSource1;
 
         }
 
@@ -59,6 +49,22 @@ namespace MusicCollectionForms
             }
 
             MessageBox.Show(this, message, Resources.TestForm_saveButton_Click_Save);
+        }
+
+        private void searchButton_Click(object sender, EventArgs e)
+        {
+            var form = new SearchForm(_mMusicCollection.ConsumerService);
+            form.ShowDialog(this);
+
+            IList<IAlbum> searchList = form.SelectedAlbums;
+            if (searchList != null)
+            {
+                foreach (IAlbum a in searchList)
+                {
+                    _mAlbumLibrary.AddAlbum(a);
+                    _bindingSource1.Add(a);
+                }
+            }
         }
     }
 }

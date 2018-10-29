@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace MusicCollectionModel.Interfaces
 {
+    /// <summary>
+    /// Represents a method to persise an album library
+    /// </summary>
     public interface IAlbumPersistance
     {
         /// <summary>

@@ -17,7 +17,7 @@ namespace MusicCollectionConsole
             _mMusicCollection = Driver.CreateXmlMusicCollection();
             _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, TEST_LIBRARY_NAME);
 
-            string choice = "0";
+            string choice;
             do
             {
                 Console.Out.WriteLine("   -- Menu -- ");
@@ -58,8 +58,6 @@ namespace MusicCollectionConsole
                 case "0":
                     exit = true;
                     break;
-                default:
-                    break;
             }
 
             return exit;
@@ -81,14 +79,9 @@ namespace MusicCollectionConsole
                 {
                     IAlbum album = _mAlbumLibrary.Albums[albumNumber];
 
-                    if (Controller.DeleteAlbum(_mAlbumLibrary, album))
-                    {
-                        Console.Out.WriteLine("Abum has been deleted.");
-                    }
-                    else
-                    {
-                        Console.Out.WriteLine("Unable to delete album.");
-                    }
+                    Console.Out.WriteLine(Controller.DeleteAlbum(_mAlbumLibrary, album)
+                        ? "Abum has been deleted."
+                        : "Unable to delete album.");
                 }
             }
         }
@@ -98,7 +91,7 @@ namespace MusicCollectionConsole
             Console.Out.Write("Enter an album search: ");
             var searchString = Console.In.ReadLine()?.Trim();
 
-            IList<IAlbum> albums = Controller.Search(searchString);
+            IList<IAlbum> albums = Controller.Search(_mMusicCollection.ConsumerService, searchString);
 
             Console.Out.WriteLine("\nSearch results (" + albums.Count + " items)");
             int num = 1;

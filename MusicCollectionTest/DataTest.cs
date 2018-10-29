@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MusicCollectionController;
 using MusicCollectionModel.Interfaces;
 
@@ -24,12 +23,12 @@ namespace MusicCollectionTest
         [TestMethod]
         public void TEST_XmlLibrary()
         {
-            const string TEST_LIBRARY_NAME = "TEST_LIBRARY";
+            const string testLibraryName = "TEST_LIBRARY";
 
             IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
-            IAlbumLibrary library = Controller.CreateLibrary(musicCollection.Persistance, TEST_LIBRARY_NAME);
+            IAlbumLibrary library = Controller.CreateLibrary(musicCollection.Persistance, testLibraryName);
 
-            Assert.AreEqual(library.LibraryName, TEST_LIBRARY_NAME, "Library name does not match expected " + TEST_LIBRARY_NAME);
+            Assert.AreEqual(library.LibraryName, testLibraryName, "Library name does not match expected " + testLibraryName);
 
             TestAlbum[] albums = {
                 new TestAlbum {Name = "London Calling", Artist = "The Clash", Year = 1979, PlayCount = 1},
@@ -73,13 +72,13 @@ namespace MusicCollectionTest
         [TestMethod]
         public void TEST_LoadLibrary()
         {
-            const string TEST_LIBRARY_NAME = "TEST_LIBRARY";
+            const string testLibraryName = "TEST_LIBRARY";
 
             IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
-            IAlbumLibrary library = Controller.ReadLibrary(musicCollection.Persistance, TEST_LIBRARY_NAME);
-            Assert.IsNotNull(library, "The library " + TEST_LIBRARY_NAME + " should not be null.");
+            IAlbumLibrary library = Controller.ReadLibrary(musicCollection.Persistance, testLibraryName);
+            Assert.IsNotNull(library, "The library " + testLibraryName + " should not be null.");
 
-            Assert.IsNotNull(library, "Loading " + TEST_LIBRARY_NAME + " should not be null.");
+            Assert.IsNotNull(library, "Loading " + testLibraryName + " should not be null.");
             Assert.IsTrue(library.Albums.Count == 3, "There should be exactly 3 albums in the library.");
             
             foreach (IAlbum a in library.Albums)

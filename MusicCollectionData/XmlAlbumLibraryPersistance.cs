@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Xml;
-using System.Xml.Linq;
-using MusicCollectionModel;
 using MusicCollectionModel.Interfaces;
 
 namespace MusicCollectionData
@@ -24,9 +22,10 @@ namespace MusicCollectionData
         }
 
         /// <summary>
-        /// 
+        /// ReadCollection
         /// </summary>
-        /// <param name="albumLibrary"></param>
+        /// <param name="libraryName"></param>
+        /// <returns></returns>
         public static IAlbumLibrary ReadCollection(string libraryName)
         {
             string fileName = LibraryFileName(libraryName);
@@ -41,9 +40,11 @@ namespace MusicCollectionData
         /// <param name="albumLibrary"></param>
         public static void WriteCollection(IAlbumLibrary albumLibrary)
         {
-            XmlWriterSettings settings = new XmlWriterSettings();
-            settings.Indent = true;
-            settings.NewLineOnAttributes = true;
+            XmlWriterSettings settings = new XmlWriterSettings
+            {
+                Indent = true,
+                NewLineOnAttributes = true
+            };
 
             using (XmlWriter writer = XmlWriter.Create(LibraryFileName(albumLibrary.LibraryName), settings))
             {
