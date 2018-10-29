@@ -13,6 +13,8 @@ namespace MusicCollectionForms
         private readonly BindingSource _bindingSource1 = new BindingSource();
         private readonly IMusicCollection _mMusicCollection;
         private readonly IAlbumLibrary _mAlbumLibrary;
+        private readonly AdminControl _mAdminControl;
+        private readonly UserLogin _mUserLoginControl;
 
         public MusicCollectionAdmin()
         {
@@ -21,50 +23,15 @@ namespace MusicCollectionForms
             _mMusicCollection = Driver.CreateXmlMusicCollection();
             _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, TEST_LIBRARY_NAME);
 
-            Load += MusicCollectionGridView_Load;
-        }
+            _mAdminControl = new AdminControl(_mMusicCollection, _mAlbumLibrary);
+            _mAdminControl.Dock = DockStyle.Fill;
+            _mAdminControl.Visible = false;
 
-        private void MusicCollectionGridView_Load(object sender, EventArgs e)
-        {
-            foreach (IAlbum a in _mAlbumLibrary.Albums)
-            {
-                _bindingSource1.Add(a);
-            }
+            _mUserLoginControl = new UserLogin();
+            _mUserLoginControl.Dock = DockStyle.Fill;
 
-            musicCollectionGridView.DataSource = _bindingSource1;
-
-        }
-
-        private void saveButton_Click(object sender, EventArgs e)
-        {
-            string message = _mAlbumLibrary.LibraryName;
-
-            if (Controller.WriteLibrary(_mMusicCollection.Persistance, _mAlbumLibrary))
-            {
-                message += " saved.";
-            }
-            else
-            {
-                message += " cannot be saved.";
-            }
-
-            MessageBox.Show(this, message, Resources.TestForm_saveButton_Click_Save);
-        }
-
-        private void searchButton_Click(object sender, EventArgs e)
-        {
-            var form = new SearchForm(_mMusicCollection.ConsumerService);
-            form.ShowDialog(this);
-
-            IList<IAlbum> searchList = form.SelectedAlbums;
-            if (searchList != null)
-            {
-                foreach (IAlbum a in searchList)
-                {
-                    _mAlbumLibrary.AddAlbum(a);
-                    _bindingSource1.Add(a);
-                }
-            }
+            this.Controls.Add(_mAdminControl);
+            this.Controls.Add(_mUserLoginControl);
         }
     }
 }
