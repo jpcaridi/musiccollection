@@ -1,56 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MusicCollectionConsumerService
 {
     public class MbRootObject
     {
-        public List<MbReleaseEvent> release_events { get; set; }
-        public string date { get; set; }
-        public object barcode { get; set; }
-        public string quality { get; set; }
-        public string disambiguation { get; set; }
-        public string status { get; set; }
-        public string id { get; set; }
-        public object packaging { get; set; }
-        public string status_id { get; set; }
-        public MbTextRepresentation text_representation { get; set; }
-        public string country { get; set; }
-        public string title { get; set; }
-        public object asin { get; set; }
-        public MbCoverArtArchive cover_art_archive { get; set; }
-        public object packaging_id { get; set; }
+        public List<MbReleaseEvent> ReleaseEvents { get; set; }
+        public string Date { get; set; }
+        public object Barcode { get; set; }
+        public string Quality { get; set; }
+        public string Disambiguation { get; set; }
+        public string Status { get; set; }
+        public string Id { get; set; }
+        public object Packaging { get; set; }
+        public string StatusId { get; set; }
+        public MbTextRepresentation TextRepresentation { get; set; }
+        public string Country { get; set; }
+        public string Title { get; set; }
+        public object Asin { get; set; }
+        public MbCoverArtArchive CoverArtArchive { get; set; }
+        public object PackagingId { get; set; }
     }
     public class MbArea
     {
-        public string id { get; set; }
-        public string sort_name { get; set; }
-        public string disambiguation { get; set; }
-        public string name { get; set; }
-        public List<string> iso_3166_1_codes { get; set; }
+        public string Id { get; set; }
+        public string SortName { get; set; }
+        public string Disambiguation { get; set; }
+        public string Name { get; set; }
+        public List<string> Iso31661Codes { get; set; }
     }
 
     public class MbReleaseEvent
     {
-        public MbArea area { get; set; }
-        public string date { get; set; }
+        public MbArea Area { get; set; }
+        public string Date { get; set; }
     }
 
     public class MbTextRepresentation
     {
-        public string language { get; set; }
-        public string script { get; set; }
+        public string Language { get; set; }
+        public string Script { get; set; }
     }
 
     public class MbCoverArtArchive
     {
-        public bool front { get; set; }
-        public int count { get; set; }
-        public bool darkened { get; set; }
-        public bool back { get; set; }
-        public bool artwork { get; set; }
+        public bool Front { get; set; }
+        public int Count { get; set; }
+        public bool Darkened { get; set; }
+        public bool Back { get; set; }
+        public bool Artwork { get; set; }
     }
 }

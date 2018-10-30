@@ -1,13 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace MusicCollectionModel.Interfaces
 {
+    /// <summary>
+    /// Represents a method to persise an album library
+    /// </summary>
     public interface IAlbumPersistance
     {
+        /// <summary>
+        /// Create a new library
+        /// </summary>
+        /// <param name="libraryName">The name to call the library</param>
+        /// <returns></returns>
+        IAlbumLibrary CreateEmptyLibrary(string libraryName);
+
         /// <summary>
         /// Retrieve Library Collection
         /// </summary>

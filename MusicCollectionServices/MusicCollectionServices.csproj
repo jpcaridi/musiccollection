@@ -1,16 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5E54CB94-2781-4D06-AC51-5BA6B98F8A4B}</ProjectGuid>
+    <ProjectGuid>{4B8BEAA6-5FB7-4BCA-8027-A87782300A6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MusicCollectionModel</RootNamespace>
-    <AssemblyName>MusicCollectionModel</AssemblyName>
+    <RootNamespace>MusicCollectionServices</RootNamespace>
+    <AssemblyName>MusicCollectionServices</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,21 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IAlbum.cs" />
-    <Compile Include="Interfaces\IAlbumLibrary.cs" />
-    <Compile Include="Interfaces\IAlbumPersistance.cs" />
-    <Compile Include="Interfaces\IConsumerService.cs" />
-    <Compile Include="Interfaces\ILogInService.cs" />
-    <Compile Include="Interfaces\IMusicCollection.cs" />
-    <Compile Include="Interfaces\IUserInfo.cs" />
+    <Compile Include="LogInService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MusicCollectionModel\MusicCollectionModel.csproj">
+      <Project>{5e54cb94-2781-4d06-ac51-5ba6b98f8a4b}</Project>
+      <Name>MusicCollectionModel</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

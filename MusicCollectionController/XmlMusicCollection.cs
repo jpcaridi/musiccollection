@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MusicCollectionConsumerService;
+﻿using MusicCollectionConsumerService;
 using MusicCollectionData;
 using MusicCollectionModel.Interfaces;
+using MusicCollectionServices;
 
 namespace MusicCollectionController
 {
@@ -15,9 +11,11 @@ namespace MusicCollectionController
         {
             _mXmlPersistance = new XmlAlbumLibraryPersistance();
             _mLastFmService = new LastFmService();
+            _mLogInService = new LogInService();
         }
         private readonly XmlAlbumLibraryPersistance _mXmlPersistance;
         private readonly LastFmService _mLastFmService;
+        private readonly LogInService _mLogInService;
 
         public static XmlMusicCollection GetInstance()
         {
@@ -26,5 +24,6 @@ namespace MusicCollectionController
 
         public IAlbumPersistance Persistance => _mXmlPersistance;
         public IConsumerService ConsumerService => _mLastFmService;
+        public ILogInService LogInService => _mLogInService;
     }
 }

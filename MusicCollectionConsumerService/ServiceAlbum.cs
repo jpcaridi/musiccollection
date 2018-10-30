@@ -1,5 +1,4 @@
-﻿using System;
-using MusicCollectionModel.Interfaces;
+﻿using MusicCollectionModel.Interfaces;
 
 namespace MusicCollectionConsumerService
 {
@@ -13,15 +12,15 @@ namespace MusicCollectionConsumerService
         /// Create a new service album instance
         /// </summary>
         /// <returns>a new service album</returns>
-        public static ServiceAlbum CreateInstance(LastFMAlbum lastFmAlbum, uint year)
+        public static ServiceAlbum CreateInstance(LastFmAlbum lastFmAlbum, uint year)
         {
             return new ServiceAlbum
             {
-                Name = lastFmAlbum.name,
-                Artist = lastFmAlbum.artist,
+                Name = lastFmAlbum.Name,
+                Artist = lastFmAlbum.Artist,
                 Year = year,
                 PlayCount = 0,
-                Url = lastFmAlbum.url
+                Url = lastFmAlbum.Url
             };
         }
 

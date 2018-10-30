@@ -58,6 +58,10 @@
       <Project>{5e54cb94-2781-4d06-ac51-5ba6b98f8a4b}</Project>
       <Name>MusicCollectionModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MusicCollectionServices\MusicCollectionServices.csproj">
+      <Project>{4b8beaa6-5fb7-4bca-8027-a87782300a6a}</Project>
+      <Name>MusicCollectionServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

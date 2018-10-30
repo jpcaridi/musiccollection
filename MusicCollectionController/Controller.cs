@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using MusicCollectionConsumerService;
 using MusicCollectionModel.Interfaces;
 
 namespace MusicCollectionController
@@ -12,6 +11,29 @@ namespace MusicCollectionController
     {
 
         /// <summary>
+        /// Log into the system
+        /// </summary>
+        /// <param name="logInService"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static IUserInfo LogIn(ILogInService logInService, string userName, string password)
+        {
+            return logInService.LogIn(userName, password);
+        }
+
+        /// <summary>
+        /// Create a library
+        /// </summary>
+        /// <param name="albumPersistance"></param>
+        /// <param name="libraryName"></param>
+        /// <returns></returns>
+        public static IAlbumLibrary CreateLibrary(IAlbumPersistance albumPersistance, string libraryName)
+        {
+            return albumPersistance.CreateEmptyLibrary(libraryName);
+        }
+
+        /// <summary>
         /// Remove an album from the library if it exists
         /// </summary>
         /// <param name="albumLibrary">The album library</param>
@@ -19,16 +41,19 @@ namespace MusicCollectionController
         /// <returns>true on success. false otherwise</returns>
         public static bool DeleteAlbum(IAlbumLibrary albumLibrary, IAlbum album)
         {
+            if (album == null) throw new ArgumentNullException(nameof(album));
             return albumLibrary.RemoveAlbum(album);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public static IList<IAlbum> Search(string searchString)
+        public static IList<IAlbum> Search(IConsumerService consumerService, string searchString)
         {
             if (searchString == null) throw new ArgumentNullException(nameof(searchString));
-            return LastFmService.Search(searchString);
+            if (consumerService == null) throw new ArgumentNullException(nameof(consumerService));
+
+            return consumerService.Search(searchString);
         }
 
         /// <summary>
@@ -38,6 +63,8 @@ namespace MusicCollectionController
         /// <param name="album"></param>
         public static void AddAlbum(IAlbumLibrary albumLibrary, IAlbum album)
         {
+            if (album == null) throw new ArgumentNullException(nameof(album));
+
             albumLibrary.AddAlbum(album);
         }
 

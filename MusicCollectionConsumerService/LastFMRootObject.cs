@@ -1,57 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MusicCollectionConsumerService
+﻿namespace MusicCollectionConsumerService
 {
     public class LastFmRootObject
     {
-        public LastFMResults results { get; set; }
+        public LastFmResults Results { get; set; }
     }
 
-    public class LastFMResults
+    public class LastFmResults
     {
-        public LastFMOpensearchQuery opensearchQuery { get; set; }
-        public string opensearchtotalResults { get; set; }
-        public string opensearchstartIndex { get; set; }
-        public string opensearchitemsPerPage { get; set; }
-        public LastFMAlbummatches albummatches { get; set; }
-        public LastFMAttr attr { get; set; }
+        public LastFmOpensearchQuery OpensearchQuery { get; set; }
+        public string OpensearchtotalResults { get; set; }
+        public string OpensearchstartIndex { get; set; }
+        public string OpensearchitemsPerPage { get; set; }
+        public LastFmAlbummatches Albummatches { get; set; }
+        public LastFmAttr Attr { get; set; }
     }
 
-    public class LastFMOpensearchQuery
+    public class LastFmOpensearchQuery
     {
-        public string text { get; set; }
-        public string role { get; set; }
-        public string searchTerms { get; set; }
-        public string startPage { get; set; }
+        public string Text { get; set; }
+        public string Role { get; set; }
+        public string SearchTerms { get; set; }
+        public string StartPage { get; set; }
     }
 
-    public class LastFMAlbummatches
+    public class LastFmAlbummatches
     {
-        public LastFMAlbum[] album { get; set; }
+        public LastFmAlbum[] Album { get; set; }
     }
 
-    public class LastFMAlbum
+    public class LastFmAlbum
     {
-        public string name { get; set; }
-        public string artist { get; set; }
-        public string url { get; set; }
-        public LastFMImage[] image { get; set; }
-        public string streamable { get; set; }
-        public string mbid { get; set; }
+        public string Name { get; set; }
+        public string Artist { get; set; }
+        public string Url { get; set; }
+        public LastFmImage[] Image { get; set; }
+        public string Streamable { get; set; }
+        public string Mbid { get; set; }
     }
 
-    public class LastFMImage
+    public class LastFmImage
     {
-        public string text { get; set; }
-        public string size { get; set; }
+        public string Text { get; set; }
+        public string Size { get; set; }
     }
 
-    public class LastFMAttr
+    public class LastFmAttr
     {
-        public string LastFM_for { get; set; }
+        public string LastFmFor { get; set; }
     }
 }

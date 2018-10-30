@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using MusicCollectionController;
 using MusicCollectionForms.Properties;
@@ -8,57 +9,54 @@ namespace MusicCollectionForms
 {
     public partial class MusicCollectionAdmin : Form
     {
-        private static readonly String TEST_LIBRARY_NAME = "TEST_LIBRARY";
-        private BindingSource bindingSource1 = new BindingSource();
-        private IMusicCollection _mMusicCollection;
+        private readonly BindingSource _bindingSource1 = new BindingSource();
+        private readonly IMusicCollection _mMusicCollection;
         private IAlbumLibrary _mAlbumLibrary;
+        private readonly AdminControl _mAdminControl;
+        private readonly UserLogin _mUserLoginControl;
 
         public MusicCollectionAdmin()
         {
             InitializeComponent();
 
             _mMusicCollection = Driver.CreateXmlMusicCollection();
-            _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, TEST_LIBRARY_NAME);
 
-            this.Load += new System.EventHandler(MusicCollectionGridView_Load);
+            _mAdminControl = new AdminControl(_mMusicCollection, _mAlbumLibrary);
+            _mAdminControl.Dock = DockStyle.Fill;
+            _mAdminControl.Visible = false;
+
+            _mUserLoginControl = new UserLogin(_mMusicCollection.LogInService);
+            _mUserLoginControl.Dock = DockStyle.Fill;
+
+            this.Controls.Add(_mAdminControl);
+            this.Controls.Add(_mUserLoginControl);
+
+            _mUserLoginControl.OnLogin += UserLogIn;
+            _mAdminControl.OnLogOut += _mAdminControl_OnLogOut;
         }
 
-        protected void InitializeData()
+        private void _mAdminControl_OnLogOut(object sender)
         {
-            
-            /*musicLibraryLabel.Text = albumLibrary.LibraryName;
-
-            foreach (IAlbum a in albumLibrary.Albums)
-            {
-                musicCollectionGridView.Rows.Add(new object[] {a.Name, a.Artist, a.Year.ToString(), a.PlayCount.ToString(), a.Url});
-            }*/
-
-        }
-        private void MusicCollectionGridView_Load(object sender, EventArgs e)
-        {
-            foreach (IAlbum a in _mAlbumLibrary.Albums)
-            {
-                bindingSource1.Add(a);
-            }
-
-            musicCollectionGridView.DataSource = bindingSource1;
-
+            _mUserLoginControl.Visible = true;
+            _mAdminControl.Visible = false;
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void UserLogIn(object sender, LoginEventArgs e)
         {
-            string message = _mAlbumLibrary.LibraryName;
-
-            if (Controller.WriteLibrary(_mMusicCollection.Persistance, _mAlbumLibrary))
+            if (e.LogInSuccessful)
             {
-                message += " saved.";
+                IUserInfo userInfo = e.UserInfo;
+                _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, userInfo.LibraryName);
+
+                _mAdminControl.SetAlbumLibrary(_mAlbumLibrary);
+
+                _mUserLoginControl.Visible = false;
+                _mAdminControl.Visible = true;
             }
             else
             {
-                message += " cannot be saved.";
+                MessageBox.Show(this, "Please Try again.", "Log In Fail");
             }
-
-            MessageBox.Show(this, message, Resources.TestForm_saveButton_Click_Save);
         }
     }
 }

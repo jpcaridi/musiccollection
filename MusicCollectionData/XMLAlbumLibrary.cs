@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using MusicCollectionModel.Interfaces;
@@ -19,6 +20,16 @@ namespace MusicCollectionData
         }
 
         /// <summary>
+        /// Create an empty instance of the library
+        /// </summary>
+        /// <param name="libraryName">The name to be given to the library</param>
+        /// <returns></returns>
+        public static XmlAlbumLibrary CreateInstance(string libraryName)
+        {
+            return new XmlAlbumLibrary(libraryName);
+        }
+
+        /// <summary>
         /// Create an instance of an XmlAlbumLibrary
         /// </summary>
         /// <param name="libraryName">The name to be given to the library</param>
@@ -28,23 +39,31 @@ namespace MusicCollectionData
         {
             XmlAlbumLibrary xmlAlbumLibrary = new XmlAlbumLibrary(libraryName);
 
-            using (XmlReader reader = XmlReader.Create(fileName, new XmlReaderSettings { IgnoreWhitespace = true }))
+            try
             {
-                reader.MoveToContent();
-                reader.ReadStartElement("Albums");
-
-                while (!reader.EOF && reader.ReadState == ReadState.Interactive)
+                using (XmlReader reader = XmlReader.Create(fileName, new XmlReaderSettings { IgnoreWhitespace = true }))
                 {
-                    if (reader.Name == "Album")
+                    reader.MoveToContent();
+                    reader.ReadStartElement("Albums");
+
+                    while (!reader.EOF && reader.ReadState == ReadState.Interactive)
                     {
-                        XElement element = XNode.ReadFrom(reader) as XElement;
-                        xmlAlbumLibrary.AddAlbum(XmlAlbum.CreateInstance(element));
-                    }
-                    else
-                    {
-                        reader.Read();
+                        if (reader.Name == "Album")
+                        {
+                            XElement element = XNode.ReadFrom(reader) as XElement;
+                            xmlAlbumLibrary.AddAlbum(XmlAlbum.CreateInstance(element));
+                        }
+                        else
+                        {
+                            reader.Read();
+                        }
                     }
                 }
+            }
+            catch (FileNotFoundException)
+            {
+                //TODO This should really throw a new persistance exception
+                xmlAlbumLibrary = null;
             }
 
             return xmlAlbumLibrary;
@@ -67,6 +86,9 @@ namespace MusicCollectionData
         /// <param name="album">The album to add</param>
         public void AddAlbum(IAlbum album)
         {
+            if (album == null)
+                throw new ArgumentNullException(nameof(album));
+
             if (!_mAlbums.Contains(album))
             {
                 _mAlbums.Add(album);
@@ -80,6 +102,7 @@ namespace MusicCollectionData
         /// <returns></returns>
         public bool RemoveAlbum(IAlbum album)
         {
+            if (album == null) throw new ArgumentNullException(nameof(album));
             return _mAlbums.Contains(album) && _mAlbums.Remove(album);
         }
     }
