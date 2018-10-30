@@ -1,0 +1,40 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<h2>@Model.LibraryName</h2>
+
+<table class="table-tableboardered">
+    <tr>
+        <td class="table-td">Artist</td>
+        <td class="table-td">Album</td>
+        <td class="table-td">Year</td>
+        <td class="table-td">Play Count</td>
+        <td class="table-td">Url</td>
+    </tr>
+    @foreach (var element in Model.Albums())
+    {
+    <tr>
+        <td class="table-td">
+            @element.Artist
+        </td>
+        <td class="table-td">
+            @element.Name
+        </td>
+        <td class="table-td">
+            @element.Year
+        </td>
+        <td class="table-td">
+            @element.PlayCount
+        </td>
+        <td class="table-td">
+            <a href="@element.Url">@element.Url</a>
+        </td>
+    </tr>
+    }
+    <tr>
+        <td"table-td"></td"table-td">
+    </tr>
+</table>

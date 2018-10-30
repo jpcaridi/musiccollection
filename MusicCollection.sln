@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionConsole", "M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionServices", "MusicCollectionServices\MusicCollectionServices.csproj", "{4B8BEAA6-5FB7-4BCA-8027-A87782300A6A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCollectionWebApp", "MusicCollectionWebApp\MusicCollectionWebApp.csproj", "{95495E5F-C6DB-400E-B46F-69873C0D01DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{4B8BEAA6-5FB7-4BCA-8027-A87782300A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B8BEAA6-5FB7-4BCA-8027-A87782300A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B8BEAA6-5FB7-4BCA-8027-A87782300A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95495E5F-C6DB-400E-B46F-69873C0D01DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95495E5F-C6DB-400E-B46F-69873C0D01DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95495E5F-C6DB-400E-B46F-69873C0D01DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95495E5F-C6DB-400E-B46F-69873C0D01DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
