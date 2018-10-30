@@ -92,6 +92,9 @@ namespace MusicCollectionTest
 
         }
 
+        /// <summary>
+        /// TEST_LogIn
+        /// </summary>
         [TestMethod]
         public void TEST_LogIn()
         {
