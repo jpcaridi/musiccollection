@@ -92,6 +92,27 @@ namespace MusicCollectionTest
 
         }
 
+        [TestMethod]
+        public void TEST_LogIn()
+        {
+            const string testUserName = "test";
+            const string testPassword = "test";
+            const string testBadPassword = "test123";
+            const string testLibraryName = "TEST_LIBRARY";
+
+            IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
+            IUserInfo userInfo = Controller.LogIn(musicCollection.LogInService, testUserName, testPassword);
+
+            /* Test successful log in.*/
+            Assert.IsNotNull(userInfo, "User should not be null.");
+            Assert.IsTrue(userInfo.UserName.Equals(testUserName), "User name does not match.");
+            Assert.IsTrue(userInfo.LibraryName.Equals(testLibraryName));
+
+            /* Test a bad login.*/
+            userInfo = Controller.LogIn(musicCollection.LogInService, testUserName, testBadPassword);
+            Assert.IsNull(userInfo, "A bad log in should return a null user");
+        }
+
         [ClassCleanup]
         public static void CleanupTest()
         {

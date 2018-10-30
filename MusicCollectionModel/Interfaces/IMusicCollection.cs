@@ -6,6 +6,7 @@ namespace MusicCollectionModel.Interfaces
     /// </summary>
     public interface IMusicCollection
     {
+        ILogInService LogInService { get; }
         IAlbumPersistance Persistance { get; }
         IConsumerService ConsumerService { get; }
     }

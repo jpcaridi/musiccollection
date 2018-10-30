@@ -54,11 +54,20 @@ namespace MusicCollectionForms
         {
             get
             {
+                //TODO: This is all hard coded cell access. This needs to be fixed.
                 List<IAlbum> selectedList = new List<IAlbum>();
-                
-                foreach (var a in _bindingSource1.List)
+
+                int rowNumber = 0;
+                foreach (DataGridViewRow row in searchDataGridView.Rows)
                 {
-                    selectedList.Add(a as IAlbum);
+                    if (row.Cells[0].Value != null)
+                    {
+                        if ((bool)row.Cells[0].Value == true)
+                        {
+                            selectedList.Add(_bindingSource1[rowNumber] as IAlbum);
+                        }
+                    }
+                    rowNumber++;
                 }
 
                 return selectedList;

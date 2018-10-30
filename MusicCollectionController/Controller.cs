@@ -11,6 +11,18 @@ namespace MusicCollectionController
     {
 
         /// <summary>
+        /// Log into the system
+        /// </summary>
+        /// <param name="logInService"></param>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public static IUserInfo LogIn(ILogInService logInService, string userName, string password)
+        {
+            return logInService.LogIn(userName, password);
+        }
+
+        /// <summary>
         /// Create a library
         /// </summary>
         /// <param name="albumPersistance"></param>
