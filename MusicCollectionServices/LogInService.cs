@@ -62,6 +62,7 @@ namespace MusicCollectionServices
         }
         public IUserInfo LogIn(string userName, string password)
         {
+            IUserInfo userInfo = null;
             var dbCon = DbConnection.Instance();
             if (dbCon.IsConnect())
             {
@@ -76,14 +77,14 @@ namespace MusicCollectionServices
 
                     if (userName.Equals(userUserName) && password.Equals(userPassword))
                     {
-                        return new UserInfo { UserName = userName, LibraryName = "TEST_LIBRARY" };
+                        userInfo = new UserInfo { UserName = userName, LibraryName = "TEST_LIBRARY" };
                     }
                 }
 
                 dbCon.Close();
             }
 
-            return null;
+            return userInfo;
         }
     }
 }
