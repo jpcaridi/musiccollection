@@ -7,15 +7,15 @@ namespace MusicCollectionConsole
 {
     public class TestApp
     {
-
-        private static readonly String TEST_LIBRARY_NAME = "TEST_LIBRARY";
+        
         private static IMusicCollection _mMusicCollection;
         private static IAlbumLibrary _mAlbumLibrary;
 
         public static void Main(string[] args)
         {
             _mMusicCollection = Driver.CreateXmlMusicCollection();
-            _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, TEST_LIBRARY_NAME);
+            IUserInfo userInfo = _mMusicCollection.LogInService.LogIn("test", "test");
+            _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, userInfo.LibraryName);
 
             string choice;
             do
