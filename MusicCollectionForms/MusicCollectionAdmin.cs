@@ -46,7 +46,7 @@ namespace MusicCollectionForms
             if (e.LogInSuccessful)
             {
                 IUserInfo userInfo = e.UserInfo;
-                _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, userInfo.LibraryName);
+                _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, userInfo);
 
                 _mAdminControl.SetAlbumLibrary(_mAlbumLibrary);
 

@@ -28,9 +28,9 @@ namespace MusicCollectionController
         /// <param name="albumPersistance"></param>
         /// <param name="libraryName"></param>
         /// <returns></returns>
-        public static IAlbumLibrary CreateLibrary(IAlbumPersistance albumPersistance, string libraryName)
+        public static IAlbumLibrary CreateLibrary(IAlbumPersistance albumPersistance, IUserInfo userInfo, string libraryName)
         {
-            return albumPersistance.CreateEmptyLibrary(libraryName);
+            return albumPersistance.CreateEmptyLibrary(userInfo, libraryName);
         }
 
         /// <summary>
@@ -80,6 +80,11 @@ namespace MusicCollectionController
         public static IAlbumLibrary ReadLibrary(IAlbumPersistance albumPersistance, string libraryName)
         {
             return albumPersistance.RetrieveCollection(libraryName);
+        }
+
+        public static IAlbumLibrary ReadLibrary(IAlbumPersistance albumPersistance, IUserInfo userInfo)
+        {
+            return albumPersistance.RetrieveCollection(userInfo);
         }
 
         /// <summary>

@@ -8,7 +8,7 @@ namespace MusicCollectionModel.Interfaces
 {
     public interface IUserInfo
     {
+        int UserId { get; }
         string UserName { get; }
-        string LibraryName { get; }
     }
 }

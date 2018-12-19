@@ -31,6 +31,11 @@ namespace MusicCollectionData
             string fileName = LibraryFileName(libraryName);
             XmlAlbumLibrary albumLibrary = XmlAlbumLibrary.CreateInstance(libraryName, fileName);
 
+            if (albumLibrary == null)
+            {
+                albumLibrary = XmlAlbumLibrary.CreateInstance(libraryName);
+            }
+
             return albumLibrary;
         }
 
@@ -70,9 +75,9 @@ namespace MusicCollectionData
 
         }
 
-        public IAlbumLibrary CreateEmptyLibrary(string libraryName)
+        public IAlbumLibrary CreateEmptyLibrary(IUserInfo userInfo, string libraryName)
         {
-            return XmlAlbumLibrary.CreateInstance(libraryName);
+            return XmlAlbumLibrary.CreateInstance($"{userInfo.UserName}_{libraryName}");
         }
 
         public IAlbumLibrary RetrieveCollection(string libraryName)
@@ -93,6 +98,11 @@ namespace MusicCollectionData
             }
 
             return collectionSaved;
+        }
+
+        public IAlbumLibrary RetrieveCollection(IUserInfo userInfo)
+        {
+            return ReadCollection($"{userInfo.UserName}_TEST_LIBRARY");
         }
     }
 }
