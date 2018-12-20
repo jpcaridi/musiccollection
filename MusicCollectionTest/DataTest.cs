@@ -1,11 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using MusicCollectionController;
 using MusicCollectionModel.Interfaces;
 
 namespace MusicCollectionTest
 {
-    [TestClass]
+    [TestFixture]
     public class DataTest
     {
 
@@ -27,10 +26,10 @@ namespace MusicCollectionTest
         /// <summary>
         /// TEST_XmlLibrary
         /// </summary>
-        [TestMethod]
+        [Test]
         public void TEST_XmlLibrary()
         {
-            const string testLibraryName = "TEST_LIBRARY";
+            const string testLibraryName = "test_LIBRARY";
 
             IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
             TestUserInfo userInfo = new TestUserInfo();
@@ -78,10 +77,10 @@ namespace MusicCollectionTest
         /// <summary>
         /// TEST_LoadLibrary
         /// </summary>
-        [TestMethod]
+        [Test]
         public void TEST_LoadLibrary()
         {
-            const string testLibraryName = "TEST_LIBRARY";
+            const string testLibraryName = "test_LIBRARY";
 
             IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
             IAlbumLibrary library = Controller.ReadLibrary(musicCollection.Persistance, testLibraryName);
@@ -104,7 +103,7 @@ namespace MusicCollectionTest
         /// <summary>
         /// TEST_LogIn
         /// </summary>
-        [TestMethod]
+        [Test]
         public void TEST_LogIn()
         {
             const string testUserName = "test";
@@ -121,12 +120,6 @@ namespace MusicCollectionTest
             /* Test a bad login.*/
             userInfo = Controller.LogIn(musicCollection.LogInService, testUserName, testBadPassword);
             Assert.IsNull(userInfo, "A bad log in should return a null user");
-        }
-
-        [ClassCleanup]
-        public static void CleanupTest()
-        {
-
         }
     }
 }

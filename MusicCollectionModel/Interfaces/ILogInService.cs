@@ -9,5 +9,7 @@ namespace MusicCollectionModel.Interfaces
     public interface ILogInService
     {
         IUserInfo LogIn(string userName, string password);
+
+        bool ChangePassword(IUserInfo userInfo, string currentPassword, string newPassword);
     }
 }

@@ -77,7 +77,7 @@ namespace MusicCollectionData
 
         public IAlbumLibrary CreateEmptyLibrary(IUserInfo userInfo, string libraryName)
         {
-            return XmlAlbumLibrary.CreateInstance($"{userInfo.UserName}_{libraryName}");
+            return XmlAlbumLibrary.CreateInstance(libraryName);
         }
 
         public IAlbumLibrary RetrieveCollection(string libraryName)
@@ -102,7 +102,7 @@ namespace MusicCollectionData
 
         public IAlbumLibrary RetrieveCollection(IUserInfo userInfo)
         {
-            return ReadCollection($"{userInfo.UserName}_TEST_LIBRARY");
+            return ReadCollection($"{userInfo.UserName}_LIBRARY");
         }
     }
 }
