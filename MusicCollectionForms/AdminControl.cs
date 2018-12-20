@@ -50,8 +50,22 @@ namespace MusicCollectionForms
             }
             public string LibraryName { get; set ; }
             public IReadOnlyList<IAlbum> Albums => _mAlbums.AsReadOnly();
-            public void AddAlbum(IAlbum album) { throw new NotImplementedException(); }
-            public bool RemoveAlbum(IAlbum album) { throw new NotImplementedException(); }
+
+            public void AddAlbum(IAlbum album)
+            {
+                BindingAlbum newAlbum = new BindingAlbum(album);
+                if (!_mAlbums.Contains(newAlbum))
+                {
+                    _mAlbums.Add(newAlbum);
+                }
+            }
+            public bool RemoveAlbum(IAlbum album)
+            {
+                if (album == null) throw new ArgumentNullException(nameof(album));
+
+                BindingAlbum bindingAlbum = new BindingAlbum(album);
+                return _mAlbums.Contains(bindingAlbum) && _mAlbums.Remove(bindingAlbum);
+            }
         }
 
         public delegate void LogOutEventHandler (object sender);

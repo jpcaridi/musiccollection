@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MySqlAlbumLibraryPersistance.cs" />
     <Compile Include="XmlAlbum.cs" />
     <Compile Include="XmlAlbumLibrary.cs" />
     <Compile Include="XmlAlbumLibraryPersistance.cs" />

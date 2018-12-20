@@ -11,7 +11,7 @@ namespace MusicCollectionModel.Interfaces
         /// </summary>
         /// <param name="libraryName">The name to call the library</param>
         /// <returns></returns>
-        IAlbumLibrary CreateEmptyLibrary(string libraryName);
+        IAlbumLibrary CreateEmptyLibrary(IUserInfo userInfo, string libraryName);
 
         /// <summary>
         /// Retrieve Library Collection
@@ -19,7 +19,14 @@ namespace MusicCollectionModel.Interfaces
         /// <param name="libraryName">The name of the library to retrieve</param>
         /// <returns>The library with the given name. Returns null if it does not exist</returns>
         IAlbumLibrary RetrieveCollection(string libraryName);
-        
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        IAlbumLibrary RetrieveCollection(IUserInfo userInfo);
+
         /// <summary>
         /// Write the collection to the persistant store
         /// </summary>

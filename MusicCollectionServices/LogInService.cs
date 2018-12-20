@@ -56,28 +56,32 @@ namespace MusicCollectionServices
     {
         private class UserInfo : IUserInfo
         {
+            public int UserId { get; set; }
             public string UserName { get; set; }
-
-            public string LibraryName { get; set; }
+            
         }
         public IUserInfo LogIn(string userName, string password)
         {
             var dbCon = DbConnection.Instance();
             if (dbCon.IsConnect())
             {
-                string query = "SELECT * FROM music_collection_users";
+                int userId = -1;
+                string query = $"verify_user";
                 var cmd = new MySqlCommand(query, dbCon.Connection);
-                var reader = cmd.ExecuteReader();
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@user_name", userName);
+                cmd.Parameters.AddWithValue("@user_password", password);
+                cmd.Parameters.AddWithValue("@out_user_id", userId);
+                cmd.Parameters["@out_user_id"].Direction = System.Data.ParameterDirection.Output;
 
-                while (reader.Read())
+                cmd.ExecuteNonQuery();
+                
+                if (!System.DBNull.Value.Equals(cmd.Parameters["@out_user_id"].Value))
+                    userId = (int)cmd.Parameters["@out_user_id"].Value;
+
+                if (userId >= 0)
                 {
-                    string userUserName = reader.GetString(0);
-                    string userPassword = reader.GetString(1);
-
-                    if (userName.Equals(userUserName) && password.Equals(userPassword))
-                    {
-                        return new UserInfo { UserName = userName, LibraryName = "TEST_LIBRARY" };
-                    }
+                    return new UserInfo { UserId = userId, UserName = userName };
                 }
 
                 dbCon.Close();

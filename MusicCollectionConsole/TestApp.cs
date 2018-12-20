@@ -15,7 +15,8 @@ namespace MusicCollectionConsole
         {
             _mMusicCollection = Driver.CreateXmlMusicCollection();
             IUserInfo userInfo = _mMusicCollection.LogInService.LogIn("test", "test");
-            _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, userInfo.LibraryName);
+            string libraryName = "TEST_LIBRARY";
+            _mAlbumLibrary = Controller.ReadLibrary(_mMusicCollection.Persistance, libraryName);
 
             string choice;
             do

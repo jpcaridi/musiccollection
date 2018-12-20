@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MusicCollectionController;
 using MusicCollectionModel.Interfaces;
 
@@ -17,6 +18,12 @@ namespace MusicCollectionTest
             public string Url { get; set; }
         }
 
+        private class TestUserInfo : IUserInfo
+        {
+            public int UserId => 1;
+            public string UserName => "test";
+        }
+
         /// <summary>
         /// TEST_XmlLibrary
         /// </summary>
@@ -26,7 +33,9 @@ namespace MusicCollectionTest
             const string testLibraryName = "TEST_LIBRARY";
 
             IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
-            IAlbumLibrary library = Controller.CreateLibrary(musicCollection.Persistance, testLibraryName);
+            TestUserInfo userInfo = new TestUserInfo();
+
+            IAlbumLibrary library = Controller.CreateLibrary(musicCollection.Persistance, userInfo, testLibraryName);
 
             Assert.AreEqual(library.LibraryName, testLibraryName, "Library name does not match expected " + testLibraryName);
 
@@ -101,7 +110,6 @@ namespace MusicCollectionTest
             const string testUserName = "test";
             const string testPassword = "test";
             const string testBadPassword = "test123";
-            const string testLibraryName = "TEST_LIBRARY";
 
             IMusicCollection musicCollection = Driver.CreateXmlMusicCollection();
             IUserInfo userInfo = Controller.LogIn(musicCollection.LogInService, testUserName, testPassword);
@@ -109,7 +117,6 @@ namespace MusicCollectionTest
             /* Test successful log in.*/
             Assert.IsNotNull(userInfo, "User should not be null.");
             Assert.IsTrue(userInfo.UserName.Equals(testUserName), "User name does not match.");
-            Assert.IsTrue(userInfo.LibraryName.Equals(testLibraryName));
 
             /* Test a bad login.*/
             userInfo = Controller.LogIn(musicCollection.LogInService, testUserName, testBadPassword);
