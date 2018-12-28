@@ -47,6 +47,9 @@
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Management" />
     <Reference Include="System.Transactions" />
+    <Reference Include="Google.Protobuf">
+      <HintPath>..\packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LogInService.cs" />
