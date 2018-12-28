@@ -148,6 +148,9 @@ csx/
 # Windows Store app package directory
 AppPackages/
 
+#Mac OS specific
+.DS_Store
+
 # Others
 sql/
 *.Cache
