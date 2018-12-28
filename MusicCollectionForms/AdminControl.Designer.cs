@@ -38,12 +38,13 @@
             this.albumLink = new System.Windows.Forms.DataGridViewLinkColumn();
             this.musicLibraryLabel = new System.Windows.Forms.Label();
             this.logOffButton = new System.Windows.Forms.Button();
+            this.deleteButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.musicCollectionGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // searchButton
             // 
-            this.searchButton.Location = new System.Drawing.Point(181, 0);
+            this.searchButton.Location = new System.Drawing.Point(178, 34);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(75, 23);
             this.searchButton.TabIndex = 7;
@@ -53,7 +54,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(100, 0);
+            this.saveButton.Location = new System.Drawing.Point(97, 34);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 6;
@@ -76,9 +77,9 @@
             this.albumYear,
             this.playCount,
             this.albumLink});
-            this.musicCollectionGridView.Location = new System.Drawing.Point(19, 59);
+            this.musicCollectionGridView.Location = new System.Drawing.Point(16, 76);
             this.musicCollectionGridView.Name = "musicCollectionGridView";
-            this.musicCollectionGridView.Size = new System.Drawing.Size(649, 447);
+            this.musicCollectionGridView.Size = new System.Drawing.Size(673, 420);
             this.musicCollectionGridView.TabIndex = 5;
             // 
             // albumName
@@ -123,7 +124,7 @@
             // musicLibraryLabel
             // 
             this.musicLibraryLabel.AutoSize = true;
-            this.musicLibraryLabel.Location = new System.Drawing.Point(16, 43);
+            this.musicLibraryLabel.Location = new System.Drawing.Point(13, 60);
             this.musicLibraryLabel.Name = "musicLibraryLabel";
             this.musicLibraryLabel.Size = new System.Drawing.Size(69, 13);
             this.musicLibraryLabel.TabIndex = 4;
@@ -131,7 +132,7 @@
             // 
             // logOffButton
             // 
-            this.logOffButton.Location = new System.Drawing.Point(19, 0);
+            this.logOffButton.Location = new System.Drawing.Point(16, 34);
             this.logOffButton.Name = "logOffButton";
             this.logOffButton.Size = new System.Drawing.Size(75, 23);
             this.logOffButton.TabIndex = 8;
@@ -139,18 +140,30 @@
             this.logOffButton.UseVisualStyleBackColor = true;
             this.logOffButton.Click += new System.EventHandler(this.logOffButton_Click);
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.deleteButton.Location = new System.Drawing.Point(16, 502);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteButton.TabIndex = 9;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.logOffButton);
             this.Controls.Add(this.searchButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.musicCollectionGridView);
             this.Controls.Add(this.musicLibraryLabel);
             this.Name = "AdminControl";
-            this.Size = new System.Drawing.Size(684, 520);
+            this.Size = new System.Drawing.Size(708, 536);
             ((System.ComponentModel.ISupportInitialize)(this.musicCollectionGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -169,5 +182,6 @@
         private System.Windows.Forms.DataGridViewLinkColumn albumLink;
         private System.Windows.Forms.Label musicLibraryLabel;
         private System.Windows.Forms.Button logOffButton;
+        private System.Windows.Forms.Button deleteButton;
     }
 }

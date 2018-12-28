@@ -48,7 +48,7 @@ namespace MusicCollectionForms
                     }
                 }
             }
-            public string LibraryName { get; set ; }
+            public string LibraryName { get; set; }
             public IReadOnlyList<IAlbum> Albums => _mAlbums.AsReadOnly();
 
             public void AddAlbum(IAlbum album)
@@ -68,7 +68,7 @@ namespace MusicCollectionForms
             }
         }
 
-        public delegate void LogOutEventHandler (object sender);
+        public delegate void LogOutEventHandler(object sender);
 
         private readonly BindingSource _bindingSource1 = new BindingSource();
         private readonly IMusicCollection _mMusicCollection;
@@ -155,6 +155,16 @@ namespace MusicCollectionForms
         private void logOffButton_Click(object sender, EventArgs e)
         {
             RaiseOnLogout();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            foreach (DataGridViewRow row in musicCollectionGridView.SelectedRows)
+            {
+                BindingAlbum album = (BindingAlbum)row.DataBoundItem;
+                _mAlbumLibrary.RemoveAlbum(album);
+                _bindingSource1.Remove(album);
+            }
         }
     }
 }

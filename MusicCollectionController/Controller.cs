@@ -22,6 +22,11 @@ namespace MusicCollectionController
             return logInService.LogIn(userName, password);
         }
 
+        public static bool ChangePassword(ILogInService logInService, IUserInfo userInfo, string currentPassword, string newPassword)
+        {
+            return logInService.ChangePassword(userInfo, currentPassword, newPassword);
+        }
+
         /// <summary>
         /// Create a library
         /// </summary>

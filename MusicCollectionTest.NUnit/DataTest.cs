@@ -2,7 +2,7 @@
 using MusicCollectionController;
 using MusicCollectionModel.Interfaces;
 
-namespace MusicCollectionTest
+namespace MusicCollectionTest.NUnit
 {
     [TestFixture]
     public class DataTest
@@ -88,7 +88,7 @@ namespace MusicCollectionTest
 
             Assert.IsNotNull(library, "Loading " + testLibraryName + " should not be null.");
             Assert.IsTrue(library.Albums.Count == 3, "There should be exactly 3 albums in the library.");
-            
+
             foreach (IAlbum a in library.Albums)
             {
                 Assert.IsNotNull(a.Artist, "Artist should not be null");
