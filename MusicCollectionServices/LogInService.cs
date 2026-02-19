@@ -1,6 +1,5 @@
 ﻿using MusicCollectionModel.Interfaces;
-using MySql.Data;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
 using System.Security.Cryptography;
 using System;
 
