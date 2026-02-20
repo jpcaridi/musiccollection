@@ -197,3 +197,11 @@ ModelManifest.xml
 
 # JetBrains Rider
 .idea/
+
+# Docker
+local/.env
+
+
+# Local environment
+local/.env
+local/postgres_data

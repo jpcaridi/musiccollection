@@ -1,5 +1,5 @@
-﻿using MusicCollectionModel.Interfaces;
-using MySqlConnector;
+using MusicCollectionModel.Interfaces;
+using Npgsql;
 using System.Security.Cryptography;
 using System;
 
@@ -11,15 +11,15 @@ namespace MusicCollectionServices
         {
         }
 
-        private readonly string _databaseHost = "johncaridi.com";
-        private readonly string _databaseName = "johnca14_music_collection";
-        private readonly string _userName = "johnca14_music_collection_session";
-        private readonly string _password = "Y%ELM8;p?_=6";
-        private readonly string _port = "3306";
+        private readonly string _databaseHost = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
+        private readonly string _databaseName = Environment.GetEnvironmentVariable("DB_NAME") ?? "musiccollection";
+        private readonly string _userName = Environment.GetEnvironmentVariable("DB_USER") ?? "postgres";
+        private readonly string _password = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "postgres";
+        private readonly string _port = Environment.GetEnvironmentVariable("DB_PORT") ?? "5432";
 
 
-        private MySqlConnection _connection = null;
-        public MySqlConnection Connection
+        private NpgsqlConnection _connection = null;
+        public NpgsqlConnection Connection
         {
             get { return _connection; }
         }
@@ -38,8 +38,8 @@ namespace MusicCollectionServices
             {
                 if (string.IsNullOrEmpty(_databaseName))
                     return false;
-                string connstring = $"Server=\"{_databaseHost}\"; database=\"{_databaseName}\"; UID=\"{_userName}\"; Port=\"{_port}\"; password=\"{_password}\"";
-                _connection = new MySqlConnection(connstring);
+                string connstring = $"Host=\"{_databaseHost}\"; Database=\"{_databaseName}\"; Username=\"{_userName}\"; Port=\"{_port}\"; Password=\"{_password}\"";
+                _connection = new NpgsqlConnection(connstring);
                 _connection.Open();
             }
 
@@ -59,7 +59,7 @@ namespace MusicCollectionServices
         {
             public int UserId { get; set; }
             public string UserName { get; set; }
-            
+
         }
 
         private static class PasswordHasher
@@ -111,7 +111,7 @@ namespace MusicCollectionServices
                 var computedHash = Compute(password, salt);
                 return AreHashesEqual(computedHash, passwordHash);
             }
-            
+
             private static bool AreHashesEqual(byte[] firstHash, byte[] secondHash)
             {
                 int minHashLenght = firstHash.Length <= secondHash.Length ? firstHash.Length : secondHash.Length;
@@ -126,13 +126,12 @@ namespace MusicCollectionServices
         {
             UserInfo userInfo = null;
             var dbCon = DbConnection.Instance();
-            if (dbCon.IsConnect())
+            if (dbCon.IsConnect())  
             {
-                string query = "get_user_info";
-                var cmd = new MySqlCommand(query, dbCon.Connection);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@usr_name", userName);
-
+                string query = "SELECT * FROM get_user_info(@usr_name)";
+                var cmd = new NpgsqlCommand(query, dbCon.Connection);
+                cmd.Parameters.AddWithValue("usr_name", userName);
+    
                 var requestReader = cmd.ExecuteReader();
 
                 if (requestReader.Read())
@@ -162,11 +161,10 @@ namespace MusicCollectionServices
                 {
                     string newPasswordHash = PasswordHasher.Compute(newPassword);
 
-                    string query = "change_user_password";
-                    var cmd = new MySqlCommand(query, dbCon.Connection);
-                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@usr_id", userInfo.UserId);
-                    cmd.Parameters.AddWithValue("@usr_password", newPasswordHash);
+                    string query = "SELECT change_user_password(@usr_id, @usr_password)";
+                    var cmd = new NpgsqlCommand(query, dbCon.Connection);
+                    cmd.Parameters.AddWithValue("usr_id", userInfo.UserId);
+                    cmd.Parameters.AddWithValue("usr_password", newPasswordHash);
 
                     if (cmd.ExecuteNonQuery() > 0)
                     {
